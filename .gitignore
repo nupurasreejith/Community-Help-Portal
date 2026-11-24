@@ -1,0 +1,32 @@
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+my_env/
+venv/
+env/
+
+# Django
+.env
+db.sqlite3
+*.log
+media/
+
+# React / Node
+node_modules/
+dist/
+build/
+
+# Environment variables
+.env.*
+
+# IDE and system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/

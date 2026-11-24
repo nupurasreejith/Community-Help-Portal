@@ -1,0 +1,643 @@
+
+/* ================================
+   COMMUNITY CONNECT - HOME PAGE
+================================ */
+
+.home-page {
+  overflow: hidden;
+  background: #ffffff;
+  color: #302b46;
+}
+
+/* HERO SECTION */
+
+.home-hero {
+  min-height: 620px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background:
+    linear-gradient(90deg, rgba(24, 19, 45, 0.88), rgba(40, 30, 65, 0.48)),
+    url('/images/community-hands.jpg')
+    center/cover no-repeat;
+  color: white;
+  isolation: isolate;
+  animation: heroZoom 18s ease-in-out infinite alternate;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(31, 24, 57, 0.65),
+    transparent
+  );
+  z-index: -1;
+}
+
+.hero-container {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-content {
+  max-width: 720px;
+  padding: 85px 0;
+  animation: slideUp 1.1s ease both;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.17);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 14px;
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+  backdrop-filter: blur(8px);
+}
+
+.hero-content h1 {
+  font-size: clamp(42px, 6vw, 76px);
+  line-height: 1.12;
+  font-weight: 800;
+  margin-bottom: 25px;
+  color: #ffffff;
+}
+
+.hero-content h1 span {
+  display: block;
+  color: #d9c8ff;
+}
+
+.hero-content p {
+  max-width: 590px;
+  font-size: 18px;
+  line-height: 1.8;
+  color: #eeeaf8;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.home-btn,
+.home-btn-outline,
+.cta-button {
+  display: inline-block;
+  text-decoration: none;
+  padding: 15px 28px;
+  border-radius: 8px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.home-btn {
+  background: #7862c9;
+  color: white;
+}
+
+.home-btn:hover {
+  background: #967fe6;
+  color: white;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+.home-btn-outline {
+  color: white;
+  border: 2px solid white;
+}
+
+.home-btn-outline:hover {
+  background: white;
+  color: #51458c;
+  transform: translateY(-5px);
+}
+
+.hero-caption {
+  margin-top: 35px;
+  color: #e4dafa;
+  font-size: 15px;
+  letter-spacing: 0.4px;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: 12px;
+  color: white;
+  letter-spacing: 1px;
+}
+
+.scroll-line {
+  width: 2px;
+  height: 35px;
+  background: white;
+  margin: 10px auto 0;
+  animation: scrollMove 1.5s infinite;
+}
+
+/* FLOATING DECORATIONS */
+
+.hero-decoration {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  pointer-events: none;
+  z-index: 1;
+  animation: floatAround 7s ease-in-out infinite;
+}
+
+.decoration-one {
+  width: 110px;
+  height: 110px;
+  right: 12%;
+  top: 18%;
+}
+
+.decoration-two {
+  width: 55px;
+  height: 55px;
+  right: 27%;
+  bottom: 18%;
+  animation-delay: 1s;
+}
+
+.decoration-three {
+  width: 75px;
+  height: 75px;
+  right: 5%;
+  bottom: 22%;
+  animation-delay: 2s;
+}
+
+/* GENERAL SECTIONS */
+
+.home-section {
+  padding: 95px 0;
+}
+
+.section-heading {
+  text-align: center;
+  margin-bottom: 55px;
+}
+
+.section-heading span,
+.impact-label {
+  color: #8069cb;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 3px;
+}
+
+.section-heading h2,
+.impact-section h2 {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  margin-top: 15px;
+  color: #302b46;
+}
+
+.section-heading p {
+  color: #777386;
+  margin-top: 12px;
+}
+
+/* FEATURE CARDS */
+
+.features-section {
+  background: #faf9ff;
+}
+
+.feature-card {
+  background: white;
+  padding: 35px 25px;
+  height: 100%;
+  border-radius: 16px;
+  text-align: center;
+  border: 1px solid #eeeaf8;
+  box-shadow: 0 5px 20px rgba(54, 42, 93, 0.05);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  animation: cardFloat 5s ease-in-out infinite;
+}
+
+.feature-card:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 18px 35px rgba(81, 69, 140, 0.16);
+}
+
+.feature-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+  display: inline-block;
+  animation: iconBounce 3s ease-in-out infinite;
+}
+
+.feature-card h4 {
+  font-weight: 800;
+  margin-bottom: 14px;
+  color: #51458c;
+}
+
+.feature-card p {
+  color: #777386;
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+/* IMPACT SECTION */
+
+.impact-section {
+  padding: 95px 20px;
+  color: white;
+  background: linear-gradient(120deg, #51458c, #7862c9, #a27bc8);
+  position: relative;
+}
+
+.impact-section h2 {
+  color: white;
+}
+
+.impact-section p {
+  max-width: 750px;
+  margin: 20px auto 0;
+  color: #eeeafa;
+  font-size: 17px;
+  line-height: 1.9;
+}
+
+.impact-label {
+  color: #e2d6ff;
+}
+
+/* HOW IT WORKS */
+
+.how-section {
+  background: white;
+}
+
+.step-card {
+  background: #faf9ff;
+  padding: 38px 28px;
+  height: 100%;
+  border-radius: 15px;
+  border-bottom: 4px solid #7862c9;
+  transition: all 0.35s ease;
+}
+
+.step-card:hover {
+  transform: translateY(-9px);
+  background: #f0edff;
+  box-shadow: 0 12px 25px rgba(81, 69, 140, 0.12);
+}
+
+.step-number {
+  font-size: 48px;
+  font-weight: 900;
+  color: #8a75d2;
+  margin-bottom: 15px;
+}
+
+.step-card h4 {
+  font-weight: 800;
+  color: #51458c;
+}
+
+.step-card p {
+  color: #777386;
+  line-height: 1.7;
+  margin-top: 12px;
+}
+
+/* CALL TO ACTION */
+
+.home-cta {
+  padding: 85px 20px;
+  background: linear-gradient(120deg, #eeeaff, #f8efff);
+}
+
+.home-cta h2 {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  color: #393052;
+}
+
+.home-cta p {
+  color: #777386;
+  font-size: 17px;
+  margin: 18px 0 28px;
+}
+
+.cta-button {
+  background: #51458c;
+  color: white;
+}
+
+.cta-button:hover {
+  background: #7862c9;
+  color: white;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(81, 69, 140, 0.25);
+}
+
+/* FOOTER */
+
+.home-footer {
+  background: #28233e;
+  color: white;
+  padding: 45px 20px;
+  text-align: center;
+}
+
+.home-footer h5 {
+  font-size: 23px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.home-footer p {
+  color: #d9d2ed;
+}
+
+.home-footer small {
+  color: #aaa3c3;
+}
+
+/* ANIMATIONS */
+
+@keyframes heroZoom {
+  from {
+    background-size: 100% auto;
+  }
+  to {
+    background-size: 110% auto;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(45px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatAround {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-25px) rotate(15deg);
+  }
+}
+
+@keyframes iconBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes cardFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes scrollMove {
+  0%, 100% {
+    opacity: 0.4;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(8px);
+  }
+}
+
+/* MOBILE RESPONSIVENESS */
+
+@media (max-width: 768px) {
+  .home-hero {
+    min-height: 620px;
+    background-position: center;
+  }
+
+  .hero-content {
+    padding: 65px 10px;
+  }
+
+  .hero-content h1 {
+    font-size: 44px;
+  }
+
+  .hero-content p {
+    font-size: 16px;
+  }
+
+  .hero-scroll {
+    display: none;
+  }
+
+  .home-section {
+    padding: 65px 0;
+  }
+
+  .hero-decoration {
+    opacity: 0.5;
+  }
+}
+
+/* ACCESSIBILITY: REDUCE MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+  .home-page *,
+  .home-page *::before,
+  .home-page *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ================================
+   HOMEPAGE TRANSPARENT NAVBAR
+================================ */
+
+.home-navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: transparent !important;
+  padding: 20px 0;
+}
+
+.home-navbar .navbar-brand {
+  color: white !important;
+  font-size: 21px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.home-navbar .brand-symbol {
+  font-size: 30px;
+  color: white;
+}
+
+.home-navbar .nav-link {
+  color: white !important;
+  font-weight: 600;
+  margin-left: 18px;
+  transition: color 0.3s ease;
+}
+
+.home-navbar .nav-link:hover {
+  color: #d9c8ff !important;
+}
+
+.home-navbar .nav-register {
+  border: 1px solid white;
+  border-radius: 25px;
+  padding: 7px 20px !important;
+}
+
+.other-navbar {
+  background-color: #51458c !important;
+}
+
+/* REFINEMENTS TO MATCH DESIGN 6 */
+
+.home-hero {
+  min-height: 680px;
+  background-size: cover !important;
+  background-position: center center;
+  animation: none;
+}
+
+.hero-content {
+  max-width: 560px;
+  padding: 120px 0 150px;
+}
+
+.hero-content h1 {
+  font-size: clamp(38px, 4vw, 54px);
+  line-height: 1.15;
+  max-width: 520px;
+}
+
+.hero-content h1 span {
+  display: none;
+}
+
+.hero-badge,
+.hero-caption,
+.hero-scroll {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .home-hero {
+    min-height: 620px;
+  }
+
+  .hero-content {
+    padding: 120px 10px 100px;
+  }
+
+  .hero-content h1 {
+    font-size: 40px;
+  }
+}
+
+/* ================================
+   COMMUNITY SHORTCUT PANEL
+================================ */
+
+.home-shortcuts {
+  position: relative;
+  z-index: 5;
+  margin-top: -65px;
+  padding: 75px 0 35px;
+  background: linear-gradient(120deg, #302052, #51458c, #39245e);
+  border-radius: 50% 50% 0 0 / 12% 12% 0 0;
+  color: white;
+}
+
+.shortcut-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+  text-align: center;
+}
+
+.shortcut-item {
+  color: white;
+  text-decoration: none;
+  padding: 15px 10px;
+  border-right: 1px solid rgba(255, 255, 255, 0.25);
+  transition: all 0.35s ease;
+}
+
+.shortcut-item:last-child {
+  border-right: none;
+}
+
+.shortcut-item:hover {
+  color: #e1d4ff;
+  transform: translateY(-10px);
+}
+
+.shortcut-icon {
+  display: block;
+  font-size: 30px;
+  margin-bottom: 10px;
+  animation: iconBounce 3s ease-in-out infinite;
+}
+
+.shortcut-item h5 {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 5px;
+}
+
+.shortcut-item p {
+  font-size: 13px;
+  color: #ddd4f3;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .home-shortcuts {
+    margin-top: -35px;
+    padding: 55px 0 25px;
+    border-radius: 30px 30px 0 0;
+  }
+
+  .shortcut-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .shortcut-item {
+    border-right: none;
+  }
+}

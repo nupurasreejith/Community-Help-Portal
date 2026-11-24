@@ -1,0 +1,242 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f8faf9;
+  color: #333;
+}
+
+.navbar {
+  padding: 15px 0;
+}
+
+.navbar-brand {
+  font-size: 24px;
+  letter-spacing: 0.5px;
+}
+
+.nav-link {
+  font-weight: 500;
+  margin-left: 15px;
+}
+
+.nav-link:hover {
+  color: #d1fae5 !important;
+}
+
+.card {
+  border: none;
+  border-radius: 12px;
+}
+
+.btn {
+  border-radius: 8px;
+}
+
+section {
+  border-radius: 0;
+}
+/* Full-screen animated background */
+.animated-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    120deg,
+    #eeeaff,
+    #ffe9ef,
+    #e4f4ff,
+    #fff0df
+  );
+  background-size: 400% 400%;
+  animation: gradientMove 12s ease infinite;
+}
+
+.floating-bubble {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(1px);
+  opacity: 0.65;
+  animation: blobMove 7s ease-in-out infinite alternate;
+}
+
+.bubble-one {
+  width: 280px;
+  height: 280px;
+  background: #b7a5ff;
+  top: 5%;
+  left: -70px;
+}
+
+.bubble-two {
+  width: 240px;
+  height: 240px;
+  background: #ff9db5;
+  top: 25%;
+  right: 5%;
+  animation-delay: 1s;
+}
+
+.bubble-three {
+  width: 220px;
+  height: 220px;
+  background: #80ccff;
+  bottom: 5%;
+  left: 35%;
+  animation-delay: 2s;
+}
+
+.bubble-four {
+  width: 180px;
+  height: 180px;
+  background: #ffc477;
+  top: 55%;
+  left: 65%;
+  animation-delay: 3s;
+}
+
+@keyframes blobMove {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(65px, -55px) scale(1.2);
+  }
+  100% {
+    transform: translate(-45px, 50px) scale(0.85);
+  }
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Hero content entrance animation */
+.hero-content {
+  animation: fadeSlideUp 1.2s ease-out both;
+}
+
+.hero-illustration {
+  animation: fadeSlideUp 1.5s ease-out both;
+}
+
+.hero-handshake {
+  display: inline-block;
+  animation: handshakeFloat 3s ease-in-out infinite;
+}
+
+.hero-badge {
+  display: inline-block;
+  animation: badgeFloat 3s ease-in-out infinite;
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(35px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes handshakeFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(-5deg);
+  }
+  50% {
+    transform: translateY(-18px) rotate(5deg);
+  }
+}
+
+@keyframes badgeFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+/* Animated Volunteer Availability Toggle */
+
+.availability-toggle {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.toggle-label {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.availability-toggle.available .toggle-label {
+  color: #16a36a;
+}
+
+.availability-toggle.unavailable .toggle-label {
+  color: #e45b70;
+}
+
+.toggle-button {
+  width: 100px;
+  height: 48px;
+  border: none;
+  border-radius: 50px;
+  padding: 5px;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+}
+
+.availability-toggle.available .toggle-button {
+  background: linear-gradient(135deg, #21c78a, #0b9f70);
+  box-shadow: 0 5px 18px rgba(33, 199, 138, 0.35);
+}
+
+.availability-toggle.unavailable .toggle-button {
+  background: linear-gradient(135deg, #ff8290, #e34d68);
+  box-shadow: 0 5px 18px rgba(227, 77, 104, 0.3);
+}
+
+.toggle-knob {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: white;
+  color: #16a36a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  font-weight: bold;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+              color 0.3s ease;
+}
+
+.availability-toggle.unavailable .toggle-knob {
+  transform: translateX(52px);
+  color: #e34d68;
+}
+
+.toggle-button:hover:not(:disabled) {
+  transform: scale(1.05);
+}
+
+.toggle-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
