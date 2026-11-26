@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://127.0.0.1:8000/api/',
+  baseURL: 'https://nupurasreejith.pythonanywhere.com/api/',
 });
 
 // Automatically attach access token
@@ -34,7 +34,7 @@ API.interceptors.response.use(
       if (refreshToken) {
         try {
           const response = await axios.post(
-            'http://127.0.0.1:8000/api/token/refresh/',
+            'https://nupurasreejith.pythonanywhere.com/api/token/refresh/',
             { refresh: refreshToken }
           );
 
