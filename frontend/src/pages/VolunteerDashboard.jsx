@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import API from '../services/api';
+import './VolunteerDashboard.css';
 
 function VolunteerDashboard() {
   const [requests, setRequests] = useState([]);
@@ -26,9 +27,8 @@ function VolunteerDashboard() {
     try {
       const response = await API.get('volunteers/availability/');
       setIsAvailable(response.data.is_available);
-    } catch (error) {
-      console.error(error);
-      setMessage('Unable to load volunteer availability.');
+    } catch {
+      setMessage('Unable to load availability status.');
     } finally {
       setLoading(false);
     }
@@ -40,21 +40,22 @@ function VolunteerDashboard() {
       return;
     }
 
-    async function loadRequests() {
+    let interval;
+
+    async function fetchRequests() {
       try {
         const response = await API.get('help-requests/volunteer/');
         setRequests(response.data);
-      } catch (error) {
-        console.error(error);
-        setMessage('Unable to load pending requests.');
+      } catch {
+        setMessage('Unable to load help requests.');
       }
     }
 
-    loadRequests();
-    const interval = setInterval(loadRequests, 2000);
+    fetchRequests();
+    interval = setInterval(fetchRequests, 2000);
 
     return () => clearInterval(interval);
-  }, [isAvailable, loading]);
+  }, [loading, isAvailable]);
 
   async function toggleAvailability() {
     const newStatus = !isAvailable;
@@ -62,18 +63,17 @@ function VolunteerDashboard() {
 
     try {
       await API.patch('volunteers/availability/', {
-        is_available: newStatus
+        is_available: newStatus,
       });
 
       setIsAvailable(newStatus);
       setMessage(
         newStatus
-          ? 'You are now Available for help requests!'
-          : 'You are now Unavailable for help requests.'
+          ? 'You are now available to help!'
+          : 'You are now unavailable.'
       );
-    } catch (error) {
-      console.error(error.response?.data);
-      setMessage('Unable to update your availability.');
+    } catch {
+      setMessage('Unable to update availability.');
     } finally {
       setUpdating(false);
     }
@@ -82,14 +82,12 @@ function VolunteerDashboard() {
   async function acceptRequest(id) {
     try {
       await API.post(`help-requests/${id}/accept/`);
-      setMessage('Request accepted successfully!');
-
-      setRequests((previous) =>
-        previous.filter((request) => request.id !== id)
-      );
+      setMessage('Help request accepted successfully!');
+      setRequests((prev) => prev.filter((request) => request.id !== id));
     } catch (error) {
-      console.error(error.response?.data);
-      setMessage('Unable to accept this request.');
+      setMessage(
+        error.response?.data?.error || 'Unable to accept this request.'
+      );
     }
   }
 
@@ -97,171 +95,277 @@ function VolunteerDashboard() {
     try {
       await API.post(`help-requests/${id}/reject/`);
       setMessage('Request rejected. Moving to the next volunteer.');
-
-      setRequests((previous) =>
-        previous.filter((request) => request.id !== id)
-      );
+      setRequests((prev) => prev.filter((request) => request.id !== id));
     } catch (error) {
-      console.error(error.response?.data);
-      setMessage('Unable to reject this request.');
+      setMessage(
+        error.response?.data?.error || 'Unable to reject this request.'
+      );
     }
   }
 
   function getRemainingSeconds(expiryTime) {
-    if (!expiryTime) return 0;
-
-    const remaining = Math.ceil(
-      (new Date(expiryTime).getTime() - currentTime) / 1000
+    return Math.max(
+      0,
+      Math.ceil(
+        (new Date(expiryTime).getTime() - currentTime) / 1000
+      )
     );
-
-    return Math.max(0, remaining);
   }
 
   return (
-    <div className="container py-5">
-      <h2 className="text-success fw-bold">Volunteer Dashboard</h2>
+    <div className="volunteer-dashboard">
 
-      <p className="text-muted">
-        Find people who need help and make a difference!
-      </p>
+      {/* Welcome Banner */}
+      <section className="volunteer-hero">
+        <div className="volunteer-hero-content">
+          <span className="volunteer-hero-tag">
+            COMMUNITY CONNECT
+          </span>
 
-      {/* Availability Section */}
-      <div className="card shadow-sm border-0 p-4 mb-4">
-        <div className="d-flex justify-content-between align-items-center flex-wrap gap-3">
-          <div>
-            <h5 className="fw-bold mb-2">Your Availability</h5>
+          <h1>Your Kindness Makes a Difference</h1>
 
-            {loading ? (
-              <span className="text-muted">Loading status...</span>
-            ) : (
-              <span className={`badge fs-6 ${
-                isAvailable ? 'bg-success' : 'bg-danger'
-              }`}>
-                {isAvailable ? '● Available' : '● Unavailable'}
-              </span>
-            )}
+          <p>
+            Every helping hand brings hope. Be there for someone
+            who needs you today.
+          </p>
+        </div>
 
-            <p className="text-muted mt-2 mb-0">
-              {isAvailable
-                ? 'You can receive new help requests.'
-                : 'You will not receive new help requests.'}
+        <div className="volunteer-hero-decoration">
+          💜
+        </div>
+      </section>
+
+      <main className="volunteer-dashboard-content">
+
+        {/* Availability Card */}
+        <section className="volunteer-availability-card">
+          <div className="availability-info">
+            <span className="availability-small-title">
+              YOUR VOLUNTEER STATUS
+            </span>
+
+            <h2>Ready to make a difference?</h2>
+
+            <p>
+              Turn on your availability to receive nearby
+              community help requests.
             </p>
           </div>
 
-          <div className={`availability-toggle ${
-            isAvailable ? 'available' : 'unavailable'
-          }`}>
-            <span className="toggle-label">
-              {isAvailable ? 'AVAILABLE' : 'UNAVAILABLE'}
+          <div className="availability-control">
+            <span
+              className={`volunteer-status-pill ${
+                isAvailable ? 'available' : 'unavailable'
+              }`}
+            >
+              <span className="status-dot"></span>
+              {isAvailable ? 'Available' : 'Unavailable'}
             </span>
 
             <button
               type="button"
-              className="toggle-button"
+              className={`availability-toggle ${
+                isAvailable ? 'available' : 'unavailable'
+              }`}
               onClick={toggleAvailability}
               disabled={loading || updating}
               aria-label="Toggle volunteer availability"
             >
-              <span className="toggle-knob">
-                {updating ? '...' : isAvailable ? '✓' : '×'}
-              </span>
+              <span className="toggle-knob"></span>
+            </button>
+
+            <span className="toggle-label">
+              {updating
+                ? 'Updating...'
+                : isAvailable
+                ? 'Turn off availability'
+                : 'Turn on availability'}
+            </span>
+          </div>
+        </section>
+
+        {/* Feedback Message */}
+        {message && (
+          <div className="volunteer-message">
+            <span>{message}</span>
+            <button
+              type="button"
+              onClick={() => setMessage('')}
+              aria-label="Dismiss message"
+            >
+              ×
             </button>
           </div>
-        </div>
-      </div>
-
-      {message && (
-        <div className="alert alert-info">{message}</div>
-      )}
-
-      <h4 className="mt-4 mb-3">Available Help Requests</h4>
-
-      {!loading && !isAvailable && (
-        <div className="alert alert-warning">
-          You are currently unavailable. Change your status to Available
-          to receive help requests.
-        </div>
-      )}
-
-      <div className="row">
-        {loading && <p>Loading requests...</p>}
-
-        {!loading && isAvailable && requests.length === 0 && (
-          <p>No available requests to display.</p>
         )}
 
-        {isAvailable && requests.map((request) => {
-          const remainingSeconds = getRemainingSeconds(
-            request.offer_expires_at
-          );
+        {/* Help Requests */}
+        <section className="volunteer-requests-section">
+          <div className="requests-heading">
+            <div>
+              <span className="section-eyebrow">
+                LEND A HELPING HAND
+              </span>
+              <h2>Available Help Requests</h2>
+              <p>
+                Requests waiting for someone like you.
+              </p>
+            </div>
 
-          return (
-            <div className="col-md-6 mb-4" key={request.id}>
-              <div className="card shadow-sm p-4 h-100">
-                <h5>{request.title}</h5>
-                <p>{request.description}</p>
-                <p><strong>Category:</strong> {request.category}</p>
-                <p><strong>Location:</strong> {request.location}</p>
-                <p><strong>Requested by:</strong> {request.user}</p>
+            <div className="request-count">
+              {requests.length} {requests.length === 1 ? 'Request' : 'Requests'}
+            </div>
+          </div>
 
-                <div className="alert alert-warning text-center mt-2">
-                  <strong>This request is valid till:</strong>
-                  <h2 className="fw-bold text-danger my-2">
-                    {remainingSeconds} seconds
-                  </h2>
-                  <small>
-                    {remainingSeconds === 0
-                      ? 'Offer expired. Waiting for the next offer...'
-                      : 'Please accept or reject before time runs out.'}
-                  </small>
-                </div>
-
-                <div className="d-flex gap-2 mt-3">
-                  <button
-                    className="btn btn-success flex-fill"
-                    onClick={() => acceptRequest(request.id)}
-                    disabled={remainingSeconds === 0}
-                  >
-                    ✓ Accept
-                  </button>
-
-                  <button
-                    className="btn btn-outline-danger flex-fill"
-                    onClick={() => rejectRequest(request.id)}
-                    disabled={remainingSeconds === 0}
-                  >
-                    ✕ Reject
-                  </button>
-                </div>
+          {!isAvailable && (
+            <div className="volunteer-unavailable-notice">
+              <span className="notice-icon">💜</span>
+              <div>
+                <h3>You are currently unavailable</h3>
+                <p>
+                  Turn on your availability to start receiving
+                  help requests.
+                </p>
               </div>
             </div>
-          );
-        })}
-      </div>
+          )}
 
-      {/* Community Events Section */}
-      <hr className="my-5" />
+          {isAvailable && (
+            <>
+              {loading ? (
+                <div className="request-empty-state">
+                  <div className="empty-state-icon">⏳</div>
+                  <h3>Loading requests...</h3>
+                  <p>Please wait a moment.</p>
+                </div>
+              ) : requests.length === 0 ? (
+                <div className="request-empty-state">
+                  <div className="empty-state-icon">🌷</div>
+                  <h3>No requests at the moment</h3>
+                  <p>
+                    You're ready to help! New requests will appear here.
+                  </p>
+                </div>
+              ) : (
+                <div className="request-grid">
+                  {requests.map((request) => {
+                    const remainingSeconds = getRemainingSeconds(
+                      request.offer_expires_at
+                    );
 
-      <div className="card shadow-sm border-0 p-4">
-        <h4 className="fw-bold text-success">Community Events</h4>
-        <p className="text-muted">
-          Discover community activities such as blood donation camps,
-          educational workshops and volunteering events.
-        </p>
+                    return (
+                      <article
+                        className="volunteer-request-card"
+                        key={request.id}
+                      >
+                        <div className="request-card-top">
+                          <span className="request-category">
+                            {request.category?.replace(/_/g, ' ')}
+                          </span>
 
-        <div className="d-flex flex-wrap gap-2">
-          <a href="/community-events" className="btn btn-success">
-            Browse Events
-          </a>
+                          <span className="request-id">
+                            REQUEST #{request.id}
+                          </span>
+                        </div>
 
-          <a
-            href="/my-event-registrations"
-            className="btn btn-outline-success"
-          >
-            My Event Registrations
-          </a>
-        </div>
-      </div>
+                        <h3>{request.title}</h3>
+
+                        <p className="request-description">
+                          {request.description}
+                        </p>
+
+                        <div className="request-details">
+                          <div className="request-detail">
+                            <span className="detail-icon">📍</span>
+                            <span>{request.location}</span>
+                          </div>
+
+                          <div className="request-detail">
+                            <span className="detail-icon">👤</span>
+                            <span>
+                              Requested by: {request.member_name || 'Community Member'}
+                            </span>
+                          </div>
+                        </div>
+
+                        {request.offer_expires_at && (
+                          <div
+                            className={`request-countdown ${
+                              remainingSeconds === 0 ? 'countdown-expired' : ''
+                            }`}
+                          >
+                            {remainingSeconds > 0 ? (
+                              <>
+                                <span>⏱</span>
+                                Offer valid for
+                                <strong className="countdown-number">
+                                  {remainingSeconds}s
+                                </strong>
+                              </>
+                            ) : (
+                              <span>Offer time has expired</span>
+                            )}
+                          </div>
+                        )}
+
+                        <div className="request-actions">
+                          <button
+                            type="button"
+                            className="accept-btn"
+                            onClick={() => acceptRequest(request.id)}
+                            disabled={remainingSeconds === 0}
+                          >
+                            Accept Request
+                          </button>
+
+                          <button
+                            type="button"
+                            className="reject-btn"
+                            onClick={() => rejectRequest(request.id)}
+                          >
+                            Reject
+                          </button>
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              )}
+            </>
+          )}
+        </section>
+
+        {/* Community Events */}
+        <section className="volunteer-events-card">
+          <div className="events-icon">🌍</div>
+
+          <div className="events-content">
+            <span className="section-eyebrow">
+              BE PART OF SOMETHING BIGGER
+            </span>
+
+            <h2>Explore Community Events</h2>
+
+            <p>
+              Discover events, join meaningful activities and
+              connect with people who care.
+            </p>
+
+            <div className="events-actions">
+              <a href="/community-events" className="events-btn primary">
+                Explore Events
+              </a>
+
+              <a
+                href="/my-event-registrations"
+                className="events-btn secondary"
+              >
+                My Registrations
+              </a>
+            </div>
+          </div>
+        </section>
+
+      </main>
     </div>
   );
 }

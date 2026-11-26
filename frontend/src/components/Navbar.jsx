@@ -8,7 +8,12 @@ function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isHomePage = location.pathname === '/';
+const isHomePage = location.pathname === '/';
+const isLoginPage = location.pathname === '/login';
+const isRegisterPage = location.pathname === '/register';
+
+const isTransparentPage =
+    isHomePage || isLoginPage || isRegisterPage; 
 
   useEffect(() => {
     function loadUser() {
@@ -45,11 +50,9 @@ function Navbar() {
   }
 
   return (
-    <nav
-      className={`navbar navbar-expand-lg ${
-        isHomePage ? 'home-navbar' : 'navbar-dark other-navbar'
-      }`}
-    >
+    <nav className={`navbar navbar-expand-lg ${
+  isTransparentPage ? 'home-navbar' : 'navbar-dark other-navbar'
+}`}>
       <div className="container">
 
         <Link className="navbar-brand fw-bold" to="/">

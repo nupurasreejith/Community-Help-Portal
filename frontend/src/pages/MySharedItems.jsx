@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import API from '../services/api';
+import './MySharedItems.css';
 
 function MySharedItems() {
   const [items, setItems] = useState([]);
@@ -42,7 +43,7 @@ function MySharedItems() {
     try {
       const response = await API.get(`items/${itemId}/interests/`);
 
-      setInterests((previous) => ({
+      setInterests(previous => ({
         ...previous,
         [itemId]: response.data,
       }));
@@ -91,8 +92,8 @@ function MySharedItems() {
     try {
       await API.delete(`items/${itemId}/`);
 
-      setItems((previous) =>
-        previous.filter((item) => item.id !== itemId)
+      setItems(previous =>
+        previous.filter(item => item.id !== itemId)
       );
 
       setMessage('Item listing deleted successfully.');
@@ -102,92 +103,111 @@ function MySharedItems() {
   }
 
   return (
-    <div className="container py-5">
+    <div className="my-shared-page">
 
-      <div className="text-center mb-5">
-        <h1 className="fw-bold" style={{ color: '#51458c' }}>
-          My Shared Items 💜
-        </h1>
-
-        <p className="text-muted">
-          Manage your listings and choose who receives your shared items.
-        </p>
-      </div>
-
-      {message && (
-        <div className="alert alert-info text-center">
-          {message}
-          <button
-            className="btn-close float-end"
-            onClick={() => setMessage('')}
-          ></button>
-        </div>
-      )}
-
-      {loading && (
-        <p className="text-center">Loading your items...</p>
-      )}
-
-      {!loading && items.length === 0 && (
-        <div className="text-center py-5">
-          <h5>You haven't shared anything yet!</h5>
-          <p className="text-muted">
-            Visit Community Sharing to post your first item.
+      <section className="my-shared-hero">
+        <div className="my-shared-hero-content">
+          <span className="my-shared-tag">YOUR KINDNESS, YOUR IMPACT</span>
+          <h1>My Shared Items 💜</h1>
+          <p>
+            Every item you share creates an opportunity to help.
+            Manage your listings and choose who receives your gifts.
           </p>
         </div>
-      )}
+        <div className="my-shared-hero-decoration">🎁</div>
+      </section>
 
-      <div className="row g-4">
-        {items.map((item) => (
-          <div className="col-md-6 col-lg-4" key={item.id}>
-            <div className="card h-100 shadow-sm border-0">
+      <main className="my-shared-content">
 
-              <img
-                src={getImageUrl(item.image)}
-                className="card-img-top"
-                alt={item.title}
-                style={{
-                  height: '220px',
-                  objectFit: 'cover',
-                }}
-              />
+        {message && (
+          <div className="my-shared-message">
+            <span>{message}</span>
+            <button onClick={() => setMessage('')}>×</button>
+          </div>
+        )}
 
-              <div className="card-body d-flex flex-column">
+        <div className="my-shared-heading">
+          <div>
+            <span className="my-shared-tag">YOUR LISTINGS</span>
+            <h2>Items You've Shared</h2>
+            <p>Keep track of the things you've given to the community.</p>
+          </div>
 
-                <h5 className="fw-bold">{item.title}</h5>
+          <span className="my-shared-count">
+            {items.length} {items.length === 1 ? 'Item' : 'Items'}
+          </span>
+        </div>
 
-                <p className="text-muted">{item.description}</p>
+        {loading && (
+          <div className="my-shared-empty">
+            <div className="my-shared-loader"></div>
+            <p>Loading your shared items...</p>
+          </div>
+        )}
 
-                <p>
-                  <strong>Status:</strong>{' '}
-                  <span
-                    className={
-                      item.status === 'AVAILABLE'
-                        ? 'badge bg-success'
-                        : 'badge bg-secondary'
-                    }
-                  >
-                    {item.status === 'AVAILABLE'
-                      ? 'Available'
-                      : 'Given Away'}
-                  </span>
+        {!loading && items.length === 0 && (
+          <div className="my-shared-empty">
+            <span>🎁</span>
+            <h3>You haven't shared anything yet!</h3>
+            <p>
+              Visit Community Sharing to post your first item
+              and make someone's day.
+            </p>
+            <a href="/community-sharing" className="my-shared-link">
+              Explore Community Sharing
+            </a>
+          </div>
+        )}
+
+        <div className="my-shared-grid">
+          {items.map(item => (
+            <article className="my-shared-card" key={item.id}>
+
+              <div className="my-shared-image">
+                <img
+                  src={getImageUrl(item.image)}
+                  alt={item.title}
+                />
+
+                <span
+                  className={`my-shared-status ${
+                    item.status === 'AVAILABLE'
+                      ? 'status-available'
+                      : 'status-given'
+                  }`}
+                >
+                  {item.status === 'AVAILABLE'
+                    ? 'Available'
+                    : 'Given Away'}
+                </span>
+              </div>
+
+              <div className="my-shared-card-body">
+                <h3>{item.title}</h3>
+
+                <p className="my-shared-description">
+                  {item.description}
                 </p>
 
-                <p className="text-muted">
+                <div className="my-shared-interest">
                   ❤️ {item.interest_count} interested
-                </p>
+                </div>
 
                 {item.status === 'GIVEN_AWAY' && (
-                  <div className="alert alert-success">
-                    <strong>Selected recipient:</strong>
-                    <br />
-                    {item.selected_recipient_username}
+                  <div className="my-shared-recipient">
+                    <span>🎉</span>
+                    <div>
+                      <small>Selected recipient</small>
+                      <strong>
+                        {item.selected_recipient_username}
+                      </strong>
+                    </div>
                   </div>
                 )}
 
                 {item.status === 'AVAILABLE' && (
                   <button
-                    className="btn btn-outline-primary mb-2"
+                    className="my-shared-view-btn"
                     onClick={() => handleViewInterests(item.id)}
                   >
                     {expandedItem === item.id
@@ -197,36 +217,40 @@ function MySharedItems() {
                 )}
 
                 <button
-                  className="btn btn-outline-danger mt-auto"
+                  className="my-shared-delete-btn"
                   onClick={() => handleDelete(item.id)}
                 >
-                  Delete Listing
+                  🗑 Delete Listing
                 </button>
 
                 {expandedItem === item.id &&
                   item.status === 'AVAILABLE' && (
-                    <div className="mt-3 p-3 bg-light rounded">
-
-                      <h6 className="fw-bold">
-                        Interested Members
-                      </h6>
+                    <div className="my-shared-interests-panel">
+                      <h4>Interested Members</h4>
 
                       {interests[item.id]?.length > 0 ? (
-                        interests[item.id].map((interest) => (
+                        interests[item.id].map(interest => (
                           <div
+                            className="my-shared-interest-member"
                             key={interest.id}
-                            className="border-bottom py-3"
                           >
-                            <strong>
-                              {interest.member_username}
-                            </strong>
+                            <div className="my-shared-member-info">
+                              <span className="my-shared-avatar">
+                                {interest.member_username
+                                  .charAt(0)
+                                  .toUpperCase()}
+                              </span>
 
-                            <p className="small text-muted mb-2">
-                              Interested in this item
-                            </p>
+                              <div>
+                                <strong>
+                                  {interest.member_username}
+                                </strong>
+                                <small>Interested in this item</small>
+                              </div>
+                            </div>
 
                             <button
-                              className="btn btn-success btn-sm"
+                              className="my-shared-select-btn"
                               disabled={selectingId === item.id}
                               onClick={() =>
                                 handleSelectRecipient(
@@ -238,25 +262,29 @@ function MySharedItems() {
                             >
                               {selectingId === item.id
                                 ? 'Selecting...'
-                                : 'Give Item to This Member'}
+                                : 'Select Recipient'}
                             </button>
                           </div>
                         ))
                       ) : (
-                        <p className="text-muted small">
+                        <p className="my-shared-no-interest">
                           Nobody has expressed interest yet.
                         </p>
                       )}
-
                     </div>
                   )}
 
               </div>
-            </div>
-          </div>
-        ))}
-      </div>
+            </article>
+          ))}
+        </div>
 
+        <div className="my-shared-footer">
+          <span>💜</span>
+          <p>Your generosity makes our community a better place.</p>
+        </div>
+
+      </main>
     </div>
   );
 }

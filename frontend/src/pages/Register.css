@@ -1,0 +1,112 @@
+/* Register page layout */
+.register-page {
+    min-height: 100vh;
+    height: auto;
+    overflow: visible;
+    align-items: stretch;
+}
+
+/* Registration form section */
+.register-form-side {
+    min-height: 100vh;
+    height: auto;
+    align-items: flex-start;
+    padding: 120px 45px 45px;
+}
+
+.register-form-container {
+    width: 100%;
+    max-width: 460px;
+    margin: 0 auto;
+    animation: loginSlideIn 0.7s ease;
+}
+
+.register-form-container h2 {
+    font-size: 32px;
+    font-weight: 800;
+    color: #302052;
+    margin-bottom: 8px;
+}
+
+.register-form-container .login-description {
+    margin-bottom: 20px;
+}
+
+/* Form fields */
+.register-field {
+    margin-bottom: 14px;
+}
+
+.register-field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #40345a;
+    margin-bottom: 6px;
+}
+
+.register-field input,
+.register-field select {
+    width: 100%;
+    padding: 10px 13px;
+    border: 1px solid #e4dff0;
+    border-radius: 9px;
+    background: #faf9fd;
+    outline: none;
+    font-size: 13px;
+    color: #302052;
+    transition: 0.3s ease;
+}
+
+.register-field input:focus,
+.register-field select:focus {
+    border-color: #7655b5;
+    box-shadow: 0 0 0 4px rgba(118, 85, 181, 0.12);
+}
+
+.register-field small {
+    display: block;
+    margin-top: 5px;
+    font-size: 11px;
+    color: #888;
+}
+
+/* First and last name side by side */
+.register-name-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+/* Submit button */
+.register-form-container .login-submit-btn {
+    margin-top: 5px;
+    padding: 12px;
+}
+
+/* Bottom links */
+.register-form-container .login-register {
+    margin-top: 18px;
+}
+
+.register-form-container .login-bottom-text {
+    margin-top: 24px;
+}
+
+/* Mobile layout */
+@media (max-width: 768px) {
+    .register-form-side {
+        padding: 45px 25px;
+    }
+
+    .register-form-container {
+        max-width: 450px;
+    }
+}
+
+@media (max-width: 420px) {
+    .register-name-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}

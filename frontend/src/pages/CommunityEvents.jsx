@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import API from '../services/api';
+import './CommunityEvents.css';
 
 function CommunityEvents() {
   const [events, setEvents] = useState([]);
@@ -38,7 +39,7 @@ function CommunityEvents() {
     try {
       await API.post(`events/${eventId}/register/`, {});
       setMessage('Successfully registered for the event!');
-      fetchEvents();
+      await fetchEvents();
     } catch (error) {
       console.error(error.response?.data);
 
@@ -64,132 +65,177 @@ function CommunityEvents() {
   };
 
   return (
-    <div className="container py-5">
+    <div className="community-events-page">
 
-      <div className="mb-4">
-        <h2 className="fw-bold text-success">
-          Community Events
-        </h2>
-        <p className="text-muted">
-          Discover events, connect with your community
-          and participate in meaningful activities.
-        </p>
-      </div>
+      {/* Hero Section */}
+      <section className="events-hero">
+        <div className="events-hero-content">
+          <span className="events-tag">TOGETHER WE CAN MAKE A DIFFERENCE</span>
 
-      {message && (
-        <div className="alert alert-success">
-          {message}
+          <h1>Community Events</h1>
+
+          <p>
+            Discover meaningful events, connect with people, and
+            become part of something wonderful.
+          </p>
         </div>
-      )}
 
-      {error && (
-        <div className="alert alert-danger">
-          {error}
+        <div className="events-hero-decoration">
+          <span>♡</span>
+          <span>✦</span>
+          <span>♡</span>
         </div>
-      )}
+      </section>
 
-      {loading ? (
-        <p>Loading community events...</p>
-      ) : events.length === 0 ? (
-        <div className="alert alert-info">
-          No upcoming events are available right now.
-          Please check again later!
+      {/* Events Content */}
+      <main className="events-content">
+
+        {message && (
+          <div className="events-message">
+            <span>✓</span> {message}
+          </div>
+        )}
+
+        {error && (
+          <div className="events-error">
+            {error}
+          </div>
+        )}
+
+        <div className="events-section-heading">
+          <div>
+            <span className="events-section-label">BE A PART OF SOMETHING GOOD</span>
+            <h2>Explore Upcoming Events</h2>
+            <p>Every small action can create a positive change.</p>
+          </div>
+
+          {!loading && (
+            <span className="events-count">
+              {events.length} {events.length === 1 ? 'Event' : 'Events'}
+            </span>
+          )}
         </div>
-      ) : (
 
-        <div className="row g-4">
+        {loading ? (
+          <div className="events-loader">
+            <div className="events-spinner"></div>
+            <p>Finding community events for you...</p>
+          </div>
+        ) : events.length === 0 ? (
+          <div className="events-empty-state">
+            <div className="events-empty-icon">♡</div>
+            <h3>No Events Available Yet</h3>
+            <p>
+              There are no upcoming community events at the moment.
+              Please check back soon!
+            </p>
+          </div>
+        ) : (
+          <div className="events-grid">
+            {events.map((event) => (
+              <article className="event-card" key={event.id}>
 
-          {events.map((event) => (
+                <div className="event-image-wrapper">
+                  {event.poster ? (
+                    <img
+                      src={getImageUrl(event.poster)}
+                      alt={event.title}
+                      className="event-image"
+                    />
+                  ) : (
+                    <div className="event-image-placeholder">
+                      <span>♡</span>
+                      <p>Community Event</p>
+                    </div>
+                  )}
 
-            <div
-              className="col-md-6 col-lg-4"
-              key={event.id}
-            >
-
-              <div className="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
-
-                {event.poster && (
-                  <img
-                    src={getImageUrl(event.poster)}
-                    alt={event.title}
-                    style={{
-                      height: '220px',
-                      objectFit: 'cover',
-                    }}
-                  />
-                )}
-
-                <div className="card-body d-flex flex-column">
-
-                  <span className="badge bg-success align-self-start mb-2">
+                  <span className="event-category">
                     {event.category}
                   </span>
+                </div>
 
-                  <h5 className="fw-bold">
-                    {event.title}
-                  </h5>
+                <div className="event-card-body">
+                  <h3 className="event-title">{event.title}</h3>
 
-                  <p className="text-muted">
+                  <p className="event-description">
                     {event.description}
                   </p>
 
-                  <hr />
+                  <div className="event-details">
+                    <div className="event-detail">
+                      <span className="event-detail-icon">📅</span>
+                      <span>{event.date}</span>
+                    </div>
 
-                  <p className="small mb-2">
-                    <strong>Date:</strong> {event.event_date}
-                  </p>
+                    <div className="event-detail">
+                      <span className="event-detail-icon">🕒</span>
+                      <span>
+                        {event.start_time} - {event.end_time}
+                      </span>
+                    </div>
 
-                  <p className="small mb-2">
-                    <strong>Time:</strong> {event.start_time} - {event.end_time}
-                  </p>
+                    <div className="event-detail">
+                      <span className="event-detail-icon">📍</span>
+                      <span>{event.venue}</span>
+                    </div>
 
-                  <p className="small mb-2">
-                    <strong>Venue:</strong> {event.venue}
-                  </p>
+                    <div className="event-detail">
+                      <span className="event-detail-icon">👤</span>
+                      <span>
+                        Organized by {event.organizer_username}
+                      </span>
+                    </div>
 
-                  <p className="small mb-2">
-                    <strong>Organized by:</strong> {event.organization_username}
-                  </p>
+                    <div className="event-detail">
+                      <span className="event-detail-icon">☎</span>
+                      <span>{event.contact_details}</span>
+                    </div>
+                  </div>
 
-                  <p className="small mb-3">
-                    <strong>Contact:</strong> {event.contact_details}
-                  </p>
+                  <div className="event-counts">
+                    <div className="event-count-item">
+                      <span>👥</span>
+                      <div>
+                        <strong>{event.member_count || 0}</strong>
+                        <small>
+                          / {event.max_participants} Members
+                        </small>
+                      </div>
+                    </div>
 
-                  <div className="d-flex justify-content-between mb-3">
-                    <span className="badge bg-info text-dark">
-                      Members: {event.member_count}
-                      {event.max_participants
-                        ? ` / ${event.max_participants}`
-                        : ''}
-                    </span>
-
-                    <span className="badge bg-primary">
-                      Volunteers: {event.volunteer_count}
-                      {event.max_volunteers
-                        ? ` / ${event.max_volunteers}`
-                        : ''}
-                    </span>
+                    <div className="event-count-item">
+                      <span>💜</span>
+                      <div>
+                        <strong>{event.volunteer_count || 0}</strong>
+                        <small>
+                          / {event.max_volunteers} Volunteers
+                        </small>
+                      </div>
+                    </div>
                   </div>
 
                   <button
-                    className="btn btn-success mt-auto"
+                    className="event-register-btn"
                     onClick={() => handleRegister(event.id)}
                     disabled={registeringId === event.id}
                   >
                     {registeringId === event.id
                       ? 'Registering...'
                       : 'Register for Event'}
+                    <span>→</span>
                   </button>
-
                 </div>
-              </div>
-            </div>
+              </article>
+            ))}
+          </div>
+        )}
 
-          ))}
-
+        <div className="events-footer">
+          <span>♡</span>
+          <p>Small acts of kindness bring communities together.</p>
         </div>
-      )}
 
+      </main>
     </div>
   );
 }

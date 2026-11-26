@@ -1,0 +1,821 @@
+
+.organization-events-page {
+  min-height: 100vh;
+  background: #f8f7fc;
+  padding-bottom: 65px;
+}
+
+/* HERO SECTION */
+.org-events-hero {
+  min-height: 340px;
+  padding: 55px 9%;
+  background: linear-gradient(120deg, #51458c, #7969b5);
+  border-radius: 0 0 42px 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 35px;
+  color: white;
+}
+
+.org-events-hero-content {
+  max-width: 610px;
+}
+
+.org-events-tag {
+  display: inline-block;
+  color: #e5deff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 17px;
+}
+
+.org-events-hero h1 {
+  font-size: clamp(32px, 4vw, 44px);
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 15px;
+}
+
+.org-events-hero p {
+  color: #eeeaff;
+  font-size: 15px;
+  line-height: 1.8;
+  max-width: 500px;
+  margin-bottom: 24px;
+}
+
+.org-events-hero-btn {
+  border: none;
+  background: white;
+  color: #51458c;
+  border-radius: 12px;
+  padding: 13px 21px;
+  font-size: 14px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.org-events-hero-btn:hover {
+  background: #eeeafb;
+  transform: translateY(-3px);
+}
+
+.org-events-hero-btn span {
+  font-size: 18px;
+  margin-left: 8px;
+}
+
+/* HERO DECORATION */
+.org-events-hero-art {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.org-events-art-circle {
+  width: 195px;
+  height: 195px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 95px;
+}
+
+.org-events-art-icon {
+  position: absolute;
+  width: 53px;
+  height: 53px;
+  border-radius: 17px;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  box-shadow: 0 8px 22px rgba(30, 20, 70, 0.15);
+  animation: org-event-float 3s ease-in-out infinite;
+}
+
+.org-events-art-icon.art-calendar {
+  top: 5px;
+  right: 5px;
+}
+
+.org-events-art-icon.art-heart {
+  bottom: 5px;
+  right: 15px;
+  animation-delay: 0.5s;
+}
+
+.org-events-art-icon.art-people {
+  bottom: 55px;
+  left: 0;
+  animation-delay: 1s;
+}
+
+@keyframes org-event-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-9px);
+  }
+}
+
+/* MAIN CONTENT */
+.org-events-content {
+  max-width: 1200px;
+  margin: 45px auto 0;
+  padding: 0 25px;
+}
+
+/* ALERT MESSAGES */
+.org-events-success,
+.org-events-error {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.org-events-success {
+  background: #e8f5ec;
+  color: #27834a;
+}
+
+.org-events-error {
+  background: #fff0f0;
+  color: #b33b3b;
+}
+
+.org-events-success > span,
+.org-events-error > span {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.org-events-success button,
+.org-events-error button {
+  margin-left: auto;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* SECTION HEADING */
+.org-section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.org-section-heading > div:first-child > span,
+.org-registrations-header > div > span {
+  color: #7969b5;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.org-section-heading h2 {
+  color: #302653;
+  font-size: 27px;
+  font-weight: 800;
+  margin: 7px 0;
+}
+
+.org-section-heading p {
+  color: #817b91;
+  font-size: 14px;
+  margin: 0;
+}
+
+.org-section-heading-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+  background: #eeeafb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+/* FORM CARD */
+.org-event-form-section {
+  scroll-margin-top: 25px;
+  background: white;
+  padding: 32px;
+  border-radius: 23px;
+  border: 1px solid #eeeaf6;
+  box-shadow: 0 7px 25px rgba(65, 49, 110, 0.06);
+  margin-bottom: 60px;
+}
+
+.org-event-form {
+  margin-top: 30px;
+}
+
+.org-form-section-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.org-form-section-title > span {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: #eeeafb;
+  color: #51458c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.org-form-section-title h3 {
+  color: #302653;
+  font-size: 17px;
+  font-weight: 800;
+  margin: 0 0 4px;
+}
+
+.org-form-section-title p {
+  color: #8a8498;
+  font-size: 12px;
+  margin: 0;
+}
+
+.org-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.org-form-field {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.org-form-field.full-width {
+  grid-column: 1 / -1;
+}
+
+.org-form-field label {
+  color: #40375f;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.org-form-field input,
+.org-form-field select,
+.org-form-field textarea {
+  width: 100%;
+  border: 1px solid #e4e0ed;
+  border-radius: 11px;
+  padding: 12px 14px;
+  background: #fdfcff;
+  color: #302653;
+  font-size: 13px;
+  outline: none;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.org-form-field input,
+.org-form-field select {
+  min-height: 46px;
+}
+
+.org-form-field textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.org-form-field input:focus,
+.org-form-field select:focus,
+.org-form-field textarea:focus {
+  border-color: #7969b5;
+  box-shadow: 0 0 0 3px rgba(121, 105, 181, 0.12);
+}
+
+.org-form-field input::placeholder,
+.org-form-field textarea::placeholder {
+  color: #aaa4b8;
+}
+
+.org-form-divider {
+  height: 1px;
+  background: #f0edf5;
+  margin: 30px 0;
+}
+
+/* POSTER UPLOAD */
+.org-poster-upload {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: #faf9fd;
+  border: 1px dashed #c9c0e2;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.org-poster-icon {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  border-radius: 15px;
+  background: #eeeafb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+}
+
+.org-poster-text label {
+  display: block;
+  color: #51458c;
+  font-size: 14px;
+  font-weight: 750;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.org-poster-text p {
+  color: #8a8498;
+  font-size: 12px;
+  margin: 5px 0 0;
+}
+
+.org-poster-upload input[type="file"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* FORM BUTTONS */
+.org-form-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+
+.org-publish-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
+  border: none;
+  border-radius: 11px;
+  padding: 13px 23px;
+  background: #51458c;
+  color: white;
+  font-size: 14px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.org-publish-btn:hover {
+  background: #3e326f;
+  transform: translateY(-2px);
+}
+
+.org-publish-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.org-publish-btn span {
+  font-size: 19px;
+}
+
+.org-cancel-btn {
+  border: 1px solid #d9d3e7;
+  background: white;
+  color: #655a82;
+  padding: 12px 19px;
+  border-radius: 11px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.org-cancel-btn:hover {
+  background: #f5f2fb;
+}
+
+/* PUBLISHED EVENTS */
+.org-published-section {
+  margin-top: 20px;
+}
+
+.org-event-count {
+  min-width: 90px;
+  padding: 12px 18px;
+  background: #eeeafb;
+  border-radius: 15px;
+  color: #51458c;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.org-event-count strong {
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.org-event-count span {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.org-events-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 23px;
+}
+
+.org-event-card {
+  background: white;
+  border: 1px solid #eeeaf6;
+  border-radius: 19px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(65, 49, 110, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  min-width: 0;
+}
+
+.org-event-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px rgba(65, 49, 110, 0.12);
+}
+
+.org-event-poster,
+.org-event-poster-placeholder {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+}
+
+.org-event-poster-placeholder {
+  background: #eeeafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 55px;
+}
+
+.org-event-card-body {
+  padding: 20px;
+}
+
+.org-event-category {
+  display: inline-block;
+  background: #eeeafb;
+  color: #51458c;
+  padding: 6px 11px;
+  border-radius: 30px;
+  font-size: 10px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.org-event-card h3 {
+  color: #302653;
+  font-size: 19px;
+  font-weight: 800;
+  margin-bottom: 9px;
+  overflow-wrap: anywhere;
+}
+
+.org-event-description {
+  color: #817b91;
+  font-size: 12px;
+  line-height: 1.7;
+  margin-bottom: 18px;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.org-event-meta {
+  border-top: 1px solid #f0edf5;
+  padding-top: 15px;
+}
+
+.org-event-meta p {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  color: #6f6981;
+  font-size: 12px;
+  margin-bottom: 10px;
+  overflow-wrap: anywhere;
+}
+
+.org-event-meta p span {
+  font-size: 15px;
+}
+
+.org-event-registration-counts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 17px 0;
+}
+
+.org-event-registration-counts > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 11px 5px;
+  border-radius: 11px;
+  background: #f5f3fb;
+  color: #51458c;
+}
+
+.org-event-registration-counts > div:last-child {
+  background: #eef7f0;
+  color: #32844c;
+}
+
+.org-event-registration-counts strong {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.org-event-registration-counts span {
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.org-event-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.org-event-card-actions button {
+  width: 100%;
+  border-radius: 9px;
+  padding: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.org-view-registrations-btn {
+  background: #51458c;
+  color: white;
+  border: 1px solid #51458c;
+}
+
+.org-view-registrations-btn:hover {
+  background: #3e326f;
+}
+
+.org-edit-event-btn {
+  background: white;
+  color: #51458c;
+  border: 1px solid #d7d0e9;
+}
+
+.org-edit-event-btn:hover {
+  background: #f0edfa;
+}
+
+/* EMPTY STATE */
+.org-events-empty {
+  background: white;
+  border: 1px dashed #d9d2ed;
+  border-radius: 20px;
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.org-events-empty > span {
+  font-size: 43px;
+}
+
+.org-events-empty h3 {
+  color: #302653;
+  font-size: 19px;
+  font-weight: 800;
+  margin: 14px 0 8px;
+}
+
+.org-events-empty p {
+  color: #888299;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.org-events-empty button {
+  background: #51458c;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 11px 19px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* REGISTRATIONS */
+.org-registrations-section {
+  margin-top: 45px;
+  padding: 30px;
+  border-radius: 22px;
+  background: white;
+  border: 1px solid #eeeaf6;
+  box-shadow: 0 6px 24px rgba(65, 49, 110, 0.06);
+  scroll-margin-top: 25px;
+}
+
+.org-registrations-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.org-registrations-header h2 {
+  color: #302653;
+  font-size: 23px;
+  font-weight: 800;
+  margin: 7px 0 0;
+}
+
+.org-registrations-header > button {
+  border: 1px solid #edcaca;
+  background: #fff5f5;
+  color: #b33b3b;
+  border-radius: 9px;
+  padding: 9px 15px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.org-registration-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 25px;
+}
+
+.org-registration-group {
+  background: #faf9fd;
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.org-registration-group h3 {
+  color: #51458c;
+  font-size: 15px;
+  font-weight: 800;
+  margin-bottom: 17px;
+}
+
+.org-registration-person {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  border: 1px solid #eeeaf6;
+  padding: 13px;
+  border-radius: 10px;
+  margin-bottom: 9px;
+  color: #514866;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.org-registration-person span {
+  font-size: 18px;
+}
+
+.org-registration-empty {
+  color: #898397;
+  font-size: 13px;
+  padding: 15px 0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 950px) {
+  .org-events-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .org-events-hero {
+    min-height: 300px;
+    padding: 40px 7%;
+    border-radius: 0 0 30px 30px;
+  }
+
+  .org-events-hero-art {
+    width: 190px;
+    height: 190px;
+  }
+
+  .org-events-art-circle {
+    width: 145px;
+    height: 145px;
+    font-size: 70px;
+  }
+
+  .org-events-art-icon {
+    width: 42px;
+    height: 42px;
+    font-size: 21px;
+  }
+
+  .org-events-content {
+    margin-top: 30px;
+    padding: 0 18px;
+  }
+
+  .org-event-form-section {
+    padding: 23px;
+  }
+
+  .org-registration-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .org-events-hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .org-events-hero-art {
+    align-self: center;
+  }
+
+  .org-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .org-form-field.full-width {
+    grid-column: auto;
+  }
+
+  .org-events-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .org-section-heading h2 {
+    font-size: 22px;
+  }
+
+  .org-event-form-section,
+  .org-registrations-section {
+    padding: 19px;
+  }
+
+  .org-section-heading-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 23px;
+  }
+}

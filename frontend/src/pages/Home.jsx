@@ -89,135 +89,78 @@ function Home() {
 </section>
 
 
-      {/* Features Section */}
-      <section className="home-section features-section">
-        <div className="container">
-          <div className="section-heading">
-            <span>WHAT WE DO</span>
-            <h2>One Platform. Many Ways to Help.</h2>
-            <p>Small actions can create meaningful changes.</p>
-          </div>
+      
+{/* Impact Section */}
+<section className="impact-section">
+  <div className="container text-center">
+    <span className="impact-label">OUR PURPOSE</span>
+    <h2>
+      Every Helping Hand
+      <span> Matters.</span>
+    </h2>
+    <p>
+      We believe that a stronger community begins
+      when people come together, care for one another
+      and turn kindness into action.
+    </p>
+    <div className="impact-heart">♥</div>
+  </div>
+</section>
 
-          <div className="row g-4">
 
-            <div className="col-md-6 col-lg-3">
-              <div className="feature-card">
-                <div className="feature-icon">🤝</div>
-                <h4>Get Help</h4>
-                <p>
-                  Request support from people who are ready
-                  to make a difference.
-                </p>
-              </div>
-            </div>
+      
+{/* How It Works */}
+<section className="home-section how-section">
+  <div className="container">
+    <div className="section-heading">
+      <span>GET STARTED</span>
+      <h2>How Community Connect Works</h2>
+      <p>Three simple steps to make a difference.</p>
+    </div>
 
-            <div className="col-md-6 col-lg-3">
-              <div className="feature-card">
-                <div className="feature-icon">💜</div>
-                <h4>Volunteer</h4>
-                <p>
-                  Give your time and skills to support
-                  people in your community.
-                </p>
-              </div>
-            </div>
+    <div className="row g-4 justify-content-center">
 
-            <div className="col-md-6 col-lg-3">
-              <div className="feature-card">
-                <div className="feature-icon">🎁</div>
-                <h4>Share Items</h4>
-                <p>
-                  Give unused items a new purpose by
-                  sharing them with others.
-                </p>
-              </div>
-            </div>
-
-            <div className="col-md-6 col-lg-3">
-              <div className="feature-card">
-                <div className="feature-icon">🌍</div>
-                <h4>Join Events</h4>
-                <p>
-                  Participate in community activities
-                  and make a positive impact.
-                </p>
-              </div>
-            </div>
-
-          </div>
+      <div className="col-md-4">
+        <div className="step-card">
+          <div className="step-number">01</div>
+          <h4>Create an Account</h4>
+          <p>Join as a member, volunteer or organization.</p>
         </div>
-      </section>
+      </div>
 
-      {/* Impact Section */}
-      <section className="impact-section">
-        <div className="container text-center">
-          <span className="impact-label">OUR PURPOSE</span>
-          <h2>Every Helping Hand Matters.</h2>
-          <p>
-            We believe that a stronger community begins
-            when people come together, care for one another
-            and turn kindness into action.
-          </p>
+      <div className="col-md-4">
+        <div className="step-card">
+          <div className="step-number">02</div>
+          <h4>Connect with Others</h4>
+          <p>Request help, volunteer or share resources.</p>
         </div>
-      </section>
+      </div>
 
-      {/* How It Works */}
-      <section className="home-section how-section">
-        <div className="container">
-          <div className="section-heading">
-            <span>GET STARTED</span>
-            <h2>How Community Connect Works</h2>
-            <p>Three simple steps to make a difference.</p>
-          </div>
-
-          <div className="row g-4">
-
-            <div className="col-md-4">
-              <div className="step-card">
-                <div className="step-number">01</div>
-                <h4>Create an Account</h4>
-                <p>
-                  Join as a member, volunteer or organization.
-                </p>
-              </div>
-            </div>
-
-            <div className="col-md-4">
-              <div className="step-card">
-                <div className="step-number">02</div>
-                <h4>Connect with Others</h4>
-                <p>
-                  Request help, volunteer or share resources.
-                </p>
-              </div>
-            </div>
-
-            <div className="col-md-4">
-              <div className="step-card">
-                <div className="step-number">03</div>
-                <h4>Make an Impact</h4>
-                <p>
-                  Work together and create positive change.
-                </p>
-              </div>
-            </div>
-
-          </div>
+      <div className="col-md-4">
+        <div className="step-card">
+          <div className="step-number">03</div>
+          <h4>Make an Impact</h4>
+          <p>Work together and create positive change.</p>
         </div>
-      </section>
+      </div>
 
-      {/* Call to Action */}
-      <section className="home-cta">
-        <div className="container text-center">
-          <h2>Be Someone's Reason to Smile 💜</h2>
-          <p>
-            Your small contribution could change someone's day.
-          </p>
-          <Link to="/register" className="cta-button">
-            Become a Part of Us →
-          </Link>
-        </div>
-      </section>
+    </div>
+  </div>
+</section>
+
+
+      
+{/* Call to Action */}
+<section className="home-cta">
+  <div className="container text-center">
+    <h2>Be Someone's Reason to Smile 💜</h2>
+    <p>Your small contribution could change someone's day.</p>
+    <Link to="/register" className="cta-button">
+      Become a Part of Us →
+    </Link>
+  </div>
+</section>
+
 
       {/* Footer */}
       <footer className="home-footer">

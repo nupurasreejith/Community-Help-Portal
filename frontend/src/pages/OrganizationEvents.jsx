@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import API from '../services/api';
+import './OrganizationEvents.css';
 
 function OrganizationEvents() {
   const [events, setEvents] = useState([]);
@@ -11,6 +12,7 @@ function OrganizationEvents() {
   const [editingId, setEditingId] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [registrations, setRegistrations] = useState([]);
+  const [registrationsLoading, setRegistrationsLoading] = useState(false);
 
   const initialForm = {
     title: '',
@@ -48,36 +50,36 @@ function OrganizationEvents() {
       const response = await API.get('events/my-events/');
       setEvents(response.data);
     } catch (error) {
-    console.error(error);
-        setError('Unable to load your events.');
+      console.error(error);
+      setError('Unable to load your events.');
     } finally {
       setLoading(false);
     }
   };
 
   const handleChange = (e) => {
-  const { name, value, files } = e.target;
+    const { name, value, files } = e.target;
 
-  if (name === 'poster' && files && files[0]) {
-    const file = files[0];
+    if (name === 'poster' && files && files[0]) {
+      const file = files[0];
 
-    if (!file.type.startsWith('image/')) {
-      setError('Please select an image file for the event poster.');
-      e.target.value = '';
-      setForm(previous => ({ ...previous, poster: null }));
+      if (!file.type.startsWith('image/')) {
+        setError('Please select an image file for the event poster.');
+        e.target.value = '';
+        setForm(previous => ({ ...previous, poster: null }));
+        return;
+      }
+
+      setError('');
+      setForm(previous => ({ ...previous, poster: file }));
       return;
     }
 
-    setError('');
-    setForm(previous => ({ ...previous, poster: file }));
-    return;
-  }
-
-  setForm(previous => ({
-    ...previous,
-    [name]: value,
-  }));
-};
+    setForm(previous => ({
+      ...previous,
+      [name]: value,
+    }));
+  };
 
   const resetForm = () => {
     setForm(initialForm);
@@ -161,104 +163,163 @@ function OrganizationEvents() {
   };
 
   const viewRegistrations = async (event) => {
-  try {
-    setError('');
-    setSelectedEvent(event);
+    try {
+      setError('');
+      setSelectedEvent(event);
+      setRegistrations([]);
+      setRegistrationsLoading(true);
 
-    const response = await API.get(
-      `events/${event.id}/registrations/`
-    );
+      const response = await API.get(
+        `events/${event.id}/registrations/`
+      );
 
-    setRegistrations(response.data);
-  } catch (error) {
-    setSelectedEvent(null);
-    console.error(error);
-    setError('Unable to load event registrations.');
-  }
-};
+      setRegistrations(response.data);
+    } catch (error) {
+      setSelectedEvent(null);
+      console.error(error);
+      setError('Unable to load event registrations.');
+    } finally {
+      setRegistrationsLoading(false);
+    }
+  };
+
+  const formatCategory = (category) => {
+    return categories.find(item => item.value === category)?.label || category;
+  };
 
   return (
-    <div className="container py-5">
+    <div className="organization-events-page">
 
-      <div className="mb-4">
-        <h2 className="fw-bold">Organization Events</h2>
-        <p className="text-muted">
-          Create community events and manage registrations.
-        </p>
-      </div>
+      {/* HERO */}
+      <section className="org-events-hero">
+        <div className="org-events-hero-content">
+          <span className="org-events-tag">ORGANIZATION WORKSPACE</span>
+          <h1>Let's Create Something Meaningful.</h1>
+          <p>
+            Plan community events, bring people together and turn
+            your ideas into real-world impact.
+          </p>
+          {/* <button
+            type="button"
+            className="org-events-hero-btn"
+            onClick={() => {
+              resetForm();
+              document.getElementById('org-event-form')?.scrollIntoView({
+                behavior: 'smooth',
+              });
+            }}
+          >
+            Create New Event <span>＋</span>
+          </button> */}
+        </div>
 
-      {message && (
-        <div className="alert alert-success">{message}</div>
-      )}
+        <div className="org-events-hero-art">
+          <div className="org-events-art-circle">🎉</div>
+          <span className="org-events-art-icon art-calendar">📅</span>
+          <span className="org-events-art-icon art-heart">💜</span>
+          <span className="org-events-art-icon art-people">👥</span>
+        </div>
+      </section>
 
-      {error && (
-        <div className="alert alert-danger">{error}</div>
-      )}
+      <main className="org-events-content">
 
-      {/* EVENT FORM */}
+        {/* MESSAGES */}
+        {message && (
+          <div className="org-events-success">
+            <span>✓</span> {message}
+            <button onClick={() => setMessage('')}>×</button>
+          </div>
+        )}
 
-      <div className="card border-0 shadow-sm rounded-4 mb-5">
-        <div className="card-body p-4">
+        {error && (
+          <div className="org-events-error">
+            <span>!</span> {error}
+            <button onClick={() => setError('')}>×</button>
+          </div>
+        )}
 
-          <h4 className="fw-bold mb-4">
-            {editingId ? 'Edit Event' : 'Create a New Event'}
-          </h4>
+        {/* FORM SECTION */}
+        <section className="org-event-form-section" id="org-event-form">
+          <div className="org-section-heading">
+            <div>
+              <span>EVENT PLANNER</span>
+              <h2>{editingId ? 'Update Your Event' : 'Create a New Event'}</h2>
+              <p>
+                Fill in the details below to share your event with the community.
+              </p>
+            </div>
+            <div className="org-section-heading-icon">📝</div>
+          </div>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="org-event-form">
 
-            <div className="row g-3">
+            <div className="org-form-section-title">
+              <span>01</span>
+              <div>
+                <h3>Basic Information</h3>
+                <p>Tell everyone what your event is about.</p>
+              </div>
+            </div>
 
-              <div className="col-md-6">
-                <label className="form-label">Event Title</label>
+            <div className="org-form-grid">
+              <div className="org-form-field">
+                <label>Event Title *</label>
                 <input
                   type="text"
                   name="title"
-                  className="form-control"
                   value={form.title}
                   onChange={handleChange}
                   maxLength={200}
+                  placeholder="Enter your event title"
                   required
                 />
               </div>
 
-              <div className="col-md-6">
-                <label className="form-label">Event Category</label>
+              <div className="org-form-field">
+                <label>Event Category *</label>
                 <select
                   name="category"
-                  className="form-select"
                   value={form.category}
                   onChange={handleChange}
                   required
                 >
-                  {categories.map((category) => (
-                    <option
-                      key={category.value}
-                      value={category.value}
-                    >
+                  {categories.map(category => (
+                    <option key={category.value} value={category.value}>
                       {category.label}
                     </option>
                   ))}
                 </select>
               </div>
 
-              <div className="col-12">
-                <label className="form-label">Description</label>
+              <div className="org-form-field full-width">
+                <label>Event Description *</label>
                 <textarea
                   name="description"
-                  className="form-control"
                   rows="4"
                   value={form.description}
                   onChange={handleChange}
+                  placeholder="Describe your event and what participants can expect..."
                   required
                 />
               </div>
+            </div>
 
-              <div className="col-md-6">
-                <label className="form-label">Event Date</label>
+            <div className="org-form-divider" />
+
+            <div className="org-form-section-title">
+              <span>02</span>
+              <div>
+                <h3>Date & Location</h3>
+                <p>Let participants know when and where it happens.</p>
+              </div>
+            </div>
+
+            <div className="org-form-grid">
+              <div className="org-form-field">
+                <label>Event Date *</label>
                 <input
                   type="date"
                   name="event_date"
-                  className="form-control"
                   min={new Date().toLocaleDateString('en-CA')}
                   value={form.event_date}
                   onChange={handleChange}
@@ -266,62 +327,69 @@ function OrganizationEvents() {
                 />
               </div>
 
-              <div className="col-md-3">
-                <label className="form-label">Start Time</label>
+              <div className="org-form-field">
+                <label>Venue *</label>
+                <input
+                  type="text"
+                  name="venue"
+                  value={form.venue}
+                  onChange={handleChange}
+                  placeholder="Enter event venue"
+                  required
+                />
+              </div>
+
+              <div className="org-form-field">
+                <label>Start Time *</label>
                 <input
                   type="time"
                   name="start_time"
-                  className="form-control"
                   value={form.start_time}
                   onChange={handleChange}
                   required
                 />
               </div>
 
-              <div className="col-md-3">
-                <label className="form-label">End Time</label>
+              <div className="org-form-field">
+                <label>End Time *</label>
                 <input
                   type="time"
                   name="end_time"
-                  className="form-control"
                   value={form.end_time}
                   onChange={handleChange}
                   required
                 />
               </div>
+            </div>
 
-              <div className="col-md-6">
-                <label className="form-label">Venue</label>
-                <input
-                  type="text"
-                  name="venue"
-                  className="form-control"
-                  value={form.venue}
-                  onChange={handleChange}
-                  required
-                />
+            <div className="org-form-divider" />
+
+            <div className="org-form-section-title">
+              <span>03</span>
+              <div>
+                <h3>Registrations & Contact</h3>
+                <p>Set optional limits and provide contact information.</p>
               </div>
+            </div>
 
-              <div className="col-md-6">
-                <label className="form-label">Contact Details</label>
+            <div className="org-form-grid">
+              <div className="org-form-field">
+                <label>Contact Details *</label>
                 <input
                   type="text"
                   name="contact_details"
-                  className="form-control"
                   value={form.contact_details}
                   onChange={handleChange}
+                  placeholder="Phone number or email"
                   required
                 />
               </div>
 
-              <div className="col-md-6">
-                <label className="form-label">
-                  Maximum Participants (Optional)
-                </label>
+              <div className="org-form-field">
+                <label>Maximum Participants</label>
                 <input
                   type="number"
                   name="max_participants"
-                  className="form-control"
                   min="1"
                   value={form.max_participants}
                   onChange={handleChange}
@@ -329,47 +397,55 @@ function OrganizationEvents() {
                 />
               </div>
 
-              <div className="col-md-6">
-                <label className="form-label">
-                  Maximum Volunteers (Optional)
-                </label>
+              <div className="org-form-field">
+                <label>Maximum Volunteers</label>
                 <input
                   type="number"
                   name="max_volunteers"
-                  className="form-control"
                   min="1"
                   value={form.max_volunteers}
                   onChange={handleChange}
                   placeholder="No limit"
                 />
               </div>
-
-              <div className="col-12">
-                <label className="form-label">
-                  Event Poster
-                </label>
-                <input
-                  type="file"
-                  name="poster"
-                  className="form-control"
-                  accept="image/*"
-                  onChange={handleChange}
-                  required={!editingId}
-                />
-                {editingId && (
-                  <small className="text-muted">
-                    Leave empty to keep the existing poster.
-                  </small>
-                )}
-              </div>
-
             </div>
 
-            <div className="d-flex gap-2 mt-4">
+            <div className="org-form-divider" />
 
+            <div className="org-form-section-title">
+              <span>04</span>
+              <div>
+                <h3>Event Poster</h3>
+                <p>Upload an image to make your event stand out.</p>
+              </div>
+            </div>
+
+            <div className="org-poster-upload">
+              <div className="org-poster-icon">🖼️</div>
+              <div className="org-poster-text">
+                <label htmlFor="org-event-poster">
+                  {form.poster ? form.poster.name : 'Choose Event Poster'}
+                </label>
+                <p>
+                  {editingId
+                    ? 'Leave empty to keep the existing poster.'
+                    : 'Upload an image file for your event.'}
+                </p>
+              </div>
+              <input
+                id="org-event-poster"
+                type="file"
+                name="poster"
+                accept="image/*"
+                onChange={handleChange}
+                required={!editingId}
+              />
+            </div>
+
+            <div className="org-form-actions">
               <button
                 type="submit"
-                className="btn btn-primary px-4"
+                className="org-publish-btn"
                 disabled={saving}
               >
                 {saving
@@ -377,177 +453,196 @@ function OrganizationEvents() {
                   : editingId
                     ? 'Update Event'
                     : 'Publish Event'}
+                <span>→</span>
               </button>
 
               {editingId && (
                 <button
                   type="button"
-                  className="btn btn-outline-secondary"
+                  className="org-cancel-btn"
                   onClick={resetForm}
                 >
                   Cancel Edit
                 </button>
               )}
-
             </div>
 
           </form>
-        </div>
-      </div>
+        </section>
 
-      {/* ORGANIZATION EVENTS */}
-
-      <h4 className="fw-bold mb-4">My Published Events</h4>
-
-      {loading ? (
-        <p>Loading events...</p>
-      ) : events.length === 0 ? (
-        <div className="alert alert-info">
-          You haven't published any events yet.
-        </div>
-      ) : (
-
-        <div className="row g-4">
-
-          {events.map((event) => (
-
-            <div className="col-md-6 col-lg-4" key={event.id}>
-
-              <div className="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
-
-                {event.poster && (
-                  <img
-                    src={getImageUrl(event.poster)}
-                    alt={event.title}
-                    style={{
-                      height: '210px',
-                      objectFit: 'cover',
-                    }}
-                  />
-                )}
-
-                <div className="card-body">
-
-                  <span className="badge bg-primary mb-2">
-                    {event.category}
-                  </span>
-
-                  <h5 className="fw-bold">{event.title}</h5>
-
-                  <p className="text-muted small">
-                    {event.description}
-                  </p>
-
-                  <p className="small mb-1">
-                    <strong>Date:</strong> {event.event_date}
-                  </p>
-
-                  <p className="small mb-1">
-                    <strong>Time:</strong> {event.start_time} - {event.end_time}
-                  </p>
-
-                  <p className="small mb-3">
-                    <strong>Venue:</strong> {event.venue}
-                  </p>
-
-                  <div className="d-flex justify-content-between mb-3">
-
-                    <span className="badge bg-info text-dark">
-                      Members: {event.member_count}
-                    </span>
-
-                    <span className="badge bg-success">
-                      Volunteers: {event.volunteer_count}
-                    </span>
-
-                  </div>
-
-                  <button
-                    className="btn btn-outline-primary btn-sm w-100 mb-2"
-                    onClick={() => viewRegistrations(event)}
-                  >
-                    View Registrations
-                  </button>
-
-                  <button
-                    className="btn btn-outline-secondary btn-sm w-100"
-                    onClick={() => handleEdit(event)}
-                  >
-                    Edit Event
-                  </button>
-
-                </div>
-              </div>
+        {/* PUBLISHED EVENTS */}
+        <section className="org-published-section">
+          <div className="org-section-heading">
+            <div>
+              <span>YOUR ACTIVITIES</span>
+              <h2>My Published Events</h2>
+              <p>Keep track of the events organized by your organization.</p>
             </div>
 
-          ))}
+            <div className="org-event-count">
+              <strong>{events.length}</strong>
+              <span>Events</span>
+            </div>
+          </div>
 
-        </div>
-      )}
+          {loading ? (
+            <div className="org-events-empty">
+              <span>⏳</span>
+              <h3>Loading your events...</h3>
+            </div>
+          ) : events.length === 0 ? (
+            <div className="org-events-empty">
+              <span>📅</span>
+              <h3>No events published yet</h3>
+              <p>
+                Your community journey starts with your first event.
+              </p>
+              <button
+                type="button"
+                onClick={() => document.getElementById('org-event-form')?.scrollIntoView({
+                  behavior: 'smooth',
+                })}
+              >
+                Create Your First Event
+              </button>
+            </div>
+          ) : (
+            <div className="org-events-grid">
+              {events.map(event => (
+                <article className="org-event-card" key={event.id}>
+                  {event.poster ? (
+                    <img
+                      className="org-event-poster"
+                      src={getImageUrl(event.poster)}
+                      alt={event.title}
+                    />
+                  ) : (
+                    <div className="org-event-poster-placeholder">📅</div>
+                  )}
 
-      {/* REGISTRATION DETAILS */}
+                  <div className="org-event-card-body">
+                    <span className="org-event-category">
+                      {formatCategory(event.category)}
+                    </span>
 
-      {selectedEvent && (
+                    <h3>{event.title}</h3>
 
-        <div className="card border-0 shadow-sm rounded-4 mt-5">
+                    <p className="org-event-description">
+                      {event.description}
+                    </p>
 
-          <div className="card-body p-4">
+                    <div className="org-event-meta">
+                      <p><span>📅</span> {event.event_date}</p>
+                      <p><span>🕒</span> {event.start_time} - {event.end_time}</p>
+                      <p><span>📍</span> {event.venue}</p>
+                    </div>
 
-            <div className="d-flex justify-content-between align-items-center mb-4">
-              <h4 className="fw-bold">
-                Registrations: {selectedEvent.title}
-              </h4>
+                    <div className="org-event-registration-counts">
+                      <div>
+                        <strong>{event.member_count ?? 0}</strong>
+                        <span>Members</span>
+                      </div>
+                      <div>
+                        <strong>{event.volunteer_count ?? 0}</strong>
+                        <span>Volunteers</span>
+                      </div>
+                    </div>
+
+                    <div className="org-event-card-actions">
+                      <button
+                        type="button"
+                        className="org-view-registrations-btn"
+                        onClick={() => viewRegistrations(event)}
+                      >
+                        View Registrations
+                      </button>
+
+                      <button
+                        type="button"
+                        className="org-edit-event-btn"
+                        onClick={() => handleEdit(event)}
+                      >
+                        Edit Event
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* REGISTRATIONS */}
+        {selectedEvent && (
+          <section className="org-registrations-section">
+            <div className="org-registrations-header">
+              <div>
+                <span>EVENT PARTICIPANTS</span>
+                <h2>{selectedEvent.title}</h2>
+              </div>
 
               <button
-                className="btn btn-outline-danger btn-sm"
-                onClick={() => setSelectedEvent(null)}
+                type="button"
+                onClick={() => {
+                  setSelectedEvent(null);
+                  setRegistrations([]);
+                }}
               >
-                Close
+                Close ×
               </button>
             </div>
 
-            <h5 className="text-primary">
-              Registered Members
-            </h5>
-
-            {registrations.filter(
-              (r) => r.registration_type === 'MEMBER'
-            ).length === 0 ? (
-              <p className="text-muted">No members registered yet.</p>
+            {registrationsLoading ? (
+              <p className="org-registration-empty">Loading registrations...</p>
             ) : (
-              registrations
-                .filter((r) => r.registration_type === 'MEMBER')
-                .map((r) => (
-                  <div key={r.id} className="border rounded p-3 mb-2">
-                    {r.username}
-                  </div>
-                ))
+              <div className="org-registration-columns">
+                <div className="org-registration-group">
+                  <h3>👥 Registered Members</h3>
+
+                  {registrations.filter(
+                    r => r.registration_type === 'MEMBER'
+                  ).length === 0 ? (
+                    <p className="org-registration-empty">
+                      No members registered yet.
+                    </p>
+                  ) : (
+                    registrations
+                      .filter(r => r.registration_type === 'MEMBER')
+                      .map(r => (
+                        <div className="org-registration-person" key={r.id}>
+                          <span>👤</span>
+                          {r.username}
+                        </div>
+                      ))
+                  )}
+                </div>
+
+                <div className="org-registration-group">
+                  <h3>💜 Registered Volunteers</h3>
+
+                  {registrations.filter(
+                    r => r.registration_type === 'VOLUNTEER'
+                  ).length === 0 ? (
+                    <p className="org-registration-empty">
+                      No volunteers registered yet.
+                    </p>
+                  ) : (
+                    registrations
+                      .filter(r => r.registration_type === 'VOLUNTEER')
+                      .map(r => (
+                        <div className="org-registration-person" key={r.id}>
+                          <span>🤝</span>
+                          {r.username}
+                        </div>
+                      ))
+                  )}
+                </div>
+              </div>
             )}
+          </section>
+        )}
 
-            <hr />
-
-            <h5 className="text-success">
-              Registered Volunteers
-            </h5>
-
-            {registrations.filter(
-              (r) => r.registration_type === 'VOLUNTEER'
-            ).length === 0 ? (
-              <p className="text-muted">No volunteers registered yet.</p>
-            ) : (
-              registrations
-                .filter((r) => r.registration_type === 'VOLUNTEER')
-                .map((r) => (
-                  <div key={r.id} className="border rounded p-3 mb-2">
-                    {r.username}
-                  </div>
-                ))
-            )}
-
-          </div>
-        </div>
-      )}
-
+      </main>
     </div>
   );
 }

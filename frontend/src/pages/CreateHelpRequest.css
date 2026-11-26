@@ -1,0 +1,293 @@
+
+/* Page background */
+.create-request-page {
+    min-height: 100vh;
+    padding: 0 20px 70px;
+    background: #f7f5fc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Purple hero banner */
+.request-visual {
+    width: calc(100% + 40px);
+    min-height: 310px;
+    padding: 65px 25px 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    background: linear-gradient(125deg, #35245f, #51458c, #8060b5);
+    border-radius: 0 0 45% 45% / 0 0 15% 15%;
+    position: relative;
+}
+
+.request-visual::before,
+.request-visual::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+}
+
+.request-visual::before {
+    width: 220px;
+    height: 220px;
+    top: -75px;
+    left: 8%;
+}
+
+.request-visual::after {
+    width: 280px;
+    height: 280px;
+    bottom: -150px;
+    right: 8%;
+}
+
+.request-visual-content {
+    width: 100%;
+    max-width: 700px;
+    position: relative;
+    z-index: 1;
+}
+
+.request-brand {
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 25px;
+    letter-spacing: 0.5px;
+}
+
+.request-welcome {
+    margin: 0 auto;
+}
+
+.request-tag {
+    display: inline-block;
+    padding: 8px 17px;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 30px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+.request-welcome h1 {
+    font-size: clamp(30px, 4vw, 43px);
+    line-height: 1.2;
+    font-weight: 800;
+    margin-bottom: 13px;
+}
+
+.request-welcome p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.85);
+    max-width: 550px;
+    margin: 0 auto;
+}
+
+.request-visual-footer {
+    display: none;
+}
+
+/* Form card */
+.request-form-side {
+    width: 100%;
+    max-width: 850px;
+    margin-top: -65px;
+    padding: 0;
+    position: relative;
+    z-index: 2;
+}
+
+.request-form-container {
+    width: 100%;
+    padding: 40px 45px;
+    background: #fff;
+    border: 1px solid #eee9f7;
+    border-radius: 20px;
+    box-shadow: 0 15px 45px rgba(65, 45, 105, 0.10);
+    animation: requestSlideIn 0.6s ease;
+}
+
+.request-form-label {
+    color: #8060b5;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.request-form-container h2 {
+    font-size: 27px;
+    font-weight: 800;
+    color: #302052;
+    margin: 10px 0;
+}
+
+.request-description {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.7;
+    margin-bottom: 28px;
+}
+
+/* Form fields */
+.request-field {
+    margin-bottom: 20px;
+}
+
+.request-field label {
+    display: block;
+    color: #40345a;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.request-field input,
+.request-field textarea,
+.request-field select {
+    width: 100%;
+    padding: 13px 15px;
+    border: 1px solid #e8e3f0;
+    border-radius: 10px;
+    background: #faf9fd;
+    color: #302052;
+    font-size: 13px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.request-field textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.request-field input:focus,
+.request-field textarea:focus,
+.request-field select:focus {
+    border-color: #8060b5;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(128, 96, 181, 0.10);
+}
+
+.request-field input::placeholder,
+.request-field textarea::placeholder {
+    color: #aaa;
+}
+
+/* Two-column form layout */
+.request-form-container form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
+}
+
+.request-field:nth-child(2) {
+    grid-column: 1 / -1;
+}
+
+.request-submit-btn {
+    grid-column: 1 / -1;
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(120deg, #51458c, #8060b5);
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.request-submit-btn span {
+    margin-left: 8px;
+    font-size: 19px;
+}
+
+.request-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(81, 69, 140, 0.25);
+}
+
+/* Feedback message */
+.request-message {
+    padding: 13px 15px;
+    margin-bottom: 22px;
+    border-radius: 9px;
+    background: #f1edfa;
+    color: #51458c;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.request-bottom-text {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+}
+
+/* Animation */
+@keyframes requestSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Tablet and mobile */
+@media (max-width: 768px) {
+    .create-request-page {
+        padding: 0 15px 45px;
+    }
+
+    .request-visual {
+        width: calc(100% + 30px);
+        min-height: 280px;
+        padding: 45px 20px 85px;
+        border-radius: 0 0 35% 35% / 0 0 10% 10%;
+    }
+
+    .request-welcome h1 {
+        font-size: 30px;
+    }
+
+    .request-form-side {
+        margin-top: -45px;
+    }
+
+    .request-form-container {
+        padding: 30px 25px;
+    }
+}
+
+@media (max-width: 520px) {
+    .request-form-container form {
+        grid-template-columns: 1fr;
+    }
+
+    .request-field:nth-child(2),
+    .request-submit-btn {
+        grid-column: auto;
+    }
+
+    .request-form-container {
+        padding: 27px 20px;
+    }
+
+    .request-form-container h2 {
+        font-size: 24px;
+    }
+}

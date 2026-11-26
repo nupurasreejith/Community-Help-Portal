@@ -6,9 +6,13 @@ from .models import HelpRequest, DispatchAttempt
 class HelpRequestSerializer(serializers.ModelSerializer):
 
     user = serializers.ReadOnlyField(source='user.username')
+
+    member_name = serializers.SerializerMethodField()
+
     volunteer_username = serializers.ReadOnlyField(
-    source='volunteer.username'
-)
+        source='volunteer.username'
+    )
+
     offer_expires_at = serializers.SerializerMethodField()
 
     class Meta:
@@ -22,6 +26,9 @@ class HelpRequestSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
         ]
+
+    def get_member_name(self, obj):
+        return obj.user.get_full_name() or obj.user.username
 
     def get_offer_expires_at(self, obj):
         request = self.context.get('request')

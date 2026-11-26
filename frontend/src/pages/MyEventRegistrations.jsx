@@ -1,12 +1,14 @@
 
 import React, { useEffect, useState } from 'react';
 import API from '../services/api';
+import './MyEventRegistrations.css';
 
 function MyEventRegistrations() {
   const [registrations, setRegistrations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  const [cancellingId, setCancellingId] = useState(null);
 
   useEffect(() => {
     fetchRegistrations();
@@ -40,19 +42,22 @@ function MyEventRegistrations() {
     try {
       setError('');
       setMessage('');
+      setCancellingId(registrationId);
 
       await API.delete(
         `events/registrations/${registrationId}/cancel/`
       );
 
       setMessage('Registration cancelled successfully!');
-      fetchRegistrations();
+      await fetchRegistrations();
     } catch (error) {
       console.error(error);
       setError(
         error.response?.data?.detail ||
         'Unable to cancel registration.'
       );
+    } finally {
+      setCancellingId(null);
     }
   };
 
@@ -65,107 +70,194 @@ function MyEventRegistrations() {
   };
 
   return (
-    <div className="container py-5">
+    <div className="my-event-registrations">
 
-      <h2 className="fw-bold text-success">
-        My Event Registrations
-      </h2>
+      {/* Hero Section */}
+      <section className="registrations-hero">
+        <div className="registrations-hero-content">
+          <span className="registrations-tag">
+            YOUR COMMUNITY JOURNEY
+          </span>
 
-      <p className="text-muted mb-4">
-        Keep track of the community events you have joined.
-      </p>
+          <h1>My Event Registrations</h1>
 
-      {message && (
-        <div className="alert alert-success">{message}</div>
-      )}
-
-      {error && (
-        <div className="alert alert-danger">{error}</div>
-      )}
-
-      {loading ? (
-        <p>Loading your registrations...</p>
-      ) : registrations.length === 0 ? (
-        <div className="alert alert-info">
-          You haven't registered for any events yet.
-          Explore community events to get started!
+          <p>
+            Every event is an opportunity to connect, contribute,
+            and make beautiful memories together.
+          </p>
         </div>
-      ) : (
 
-        <div className="row g-4">
+        <div className="registrations-hero-decoration">
+          <span>♡</span>
+          <span>✦</span>
+          <span>♡</span>
+        </div>
+      </section>
 
-          {registrations.map((registration) => {
-            const event = registration.event_details;
+      {/* Main Content */}
+      <main className="registrations-content">
 
-            return (
-              <div className="col-md-6 col-lg-4" key={registration.id}>
-                <div className="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
+        {message && (
+          <div className="registrations-message">
+            <span>✓</span> {message}
+          </div>
+        )}
 
-                  {event?.poster && (
-                    <img
-                      src={getImageUrl(event.poster)}
-                      alt={event.title}
-                      style={{
-                        height: '200px',
-                        objectFit: 'cover',
-                      }}
-                    />
-                  )}
+        {error && (
+          <div className="registrations-error">
+            {error}
+          </div>
+        )}
 
-                  <div className="card-body">
+        <div className="registrations-section-heading">
+          <div>
+            <span className="registrations-section-label">
+              YOUR PARTICIPATION
+            </span>
 
-                    <span className="badge bg-success mb-2">
+            <h2>Events You've Joined</h2>
+
+            <p>
+              Keep track of the community events you're part of.
+            </p>
+          </div>
+
+          {!loading && (
+            <span className="registrations-count">
+              {registrations.length}{' '}
+              {registrations.length === 1 ? 'Registration' : 'Registrations'}
+            </span>
+          )}
+        </div>
+
+        {loading ? (
+          <div className="registrations-loader">
+            <div className="registrations-spinner"></div>
+            <p>Loading your registrations...</p>
+          </div>
+        ) : registrations.length === 0 ? (
+          <div className="registrations-empty">
+            <div className="registrations-empty-icon">♡</div>
+
+            <h3>No Registrations Yet</h3>
+
+            <p>
+              You haven't registered for any community events yet.
+              Explore upcoming events and become part of something wonderful!
+            </p>
+          </div>
+        ) : (
+          <div className="registrations-grid">
+
+            {registrations.map((registration) => {
+              const event = registration.event_details;
+
+              return (
+                <article
+                  className="registration-card"
+                  key={registration.id}
+                >
+
+                  <div className="registration-image-wrapper">
+                    {event?.poster ? (
+                      <img
+                        src={getImageUrl(event.poster)}
+                        alt={event.title}
+                        className="registration-image"
+                      />
+                    ) : (
+                      <div className="registration-image-placeholder">
+                        <span>♡</span>
+                        <p>Community Event</p>
+                      </div>
+                    )}
+
+                    <span className="registration-type">
                       {registration.registration_type}
                     </span>
+                  </div>
 
-                    <h5 className="fw-bold">
+                  <div className="registration-card-body">
+
+                    <h3 className="registration-title">
                       {event?.title || `Event #${registration.event}`}
-                    </h5>
+                    </h3>
 
                     {event ? (
                       <>
-                        <p className="small text-muted">
+                        <p className="registration-description">
                           {event.description}
                         </p>
 
-                        <p className="small mb-1">
-                          <strong>Date:</strong> {event.event_date}
-                        </p>
+                        <div className="registration-details">
 
-                        <p className="small mb-1">
-                          <strong>Time:</strong> {event.start_time} - {event.end_time}
-                        </p>
+                          <div className="registration-detail">
+                            <span>📅</span>
+                            <div>
+                              <small>Event Date</small>
+                              <strong>{event.event_date}</strong>
+                            </div>
+                          </div>
 
-                        <p className="small mb-3">
-                          <strong>Venue:</strong> {event.venue}
-                        </p>
+                          <div className="registration-detail">
+                            <span>🕒</span>
+                            <div>
+                              <small>Event Time</small>
+                              <strong>
+                                {event.start_time} - {event.end_time}
+                              </strong>
+                            </div>
+                          </div>
+
+                          <div className="registration-detail">
+                            <span>📍</span>
+                            <div>
+                              <small>Venue</small>
+                              <strong>{event.venue}</strong>
+                            </div>
+                          </div>
+
+                        </div>
                       </>
                     ) : (
-                      <p className="small text-muted">
+                      <p className="registration-description">
                         Event details are not available.
                       </p>
                     )}
 
-                    <p className="small text-muted">
-                      Registered on: {new Date(registration.registered_at).toLocaleDateString()}
-                    </p>
+                    <div className="registration-date">
+                      <span>Registered on</span>
+                      <strong>
+                        {new Date(
+                          registration.registered_at
+                        ).toLocaleDateString()}
+                      </strong>
+                    </div>
 
                     <button
-                      className="btn btn-outline-danger w-100"
+                      className="registration-cancel-btn"
                       onClick={() => cancelRegistration(registration.id)}
+                      disabled={cancellingId === registration.id}
                     >
-                      Cancel Registration
+                      {cancellingId === registration.id
+                        ? 'Cancelling...'
+                        : 'Cancel Registration'}
                     </button>
 
                   </div>
-                </div>
-              </div>
-            );
-          })}
+                </article>
+              );
+            })}
 
+          </div>
+        )}
+
+        <div className="registrations-footer">
+          <span>♡</span>
+          <p>Thank you for being part of positive change!</p>
         </div>
-      )}
 
+      </main>
     </div>
   );
 }

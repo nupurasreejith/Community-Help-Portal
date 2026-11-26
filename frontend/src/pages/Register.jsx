@@ -1,7 +1,9 @@
 
 import React, { useState } from 'react';
 import API from '../services/api';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import './Login.css';
+import './Register.css';
 
 function Register() {
   const navigate = useNavigate();
@@ -55,7 +57,6 @@ function Register() {
       console.log(response.data);
 
       alert('Registration successful! You can now login.');
-
       navigate('/login');
 
     } catch (error) {
@@ -72,162 +73,197 @@ function Register() {
   }
 
   return (
-    <div className="container py-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="card shadow p-4">
+    <div className="login-page register-page">
 
-            <h2 className="text-center text-success mb-4">
-              Create Your Account
-            </h2>
+      {/* Left Side */}
+      <div className="login-visual">
+        <div className="login-visual-overlay"></div>
 
-            <form onSubmit={handleSubmit}>
+        <div className="login-visual-content">
+          <div className="login-brand">
+            ♥ Community Connect
+          </div>
 
-              {/* Username */}
-              <div className="mb-3">
-                <label className="form-label">Username</label>
-                <input
-                  type="text"
-                  name="username"
-                  className="form-control"
-                  value={formData.username}
-                  onChange={handleChange}
-                  minLength="4"
-                  maxLength="20"
-                  pattern="[A-Za-z0-9_]{4,20}"
-                  title="Username must contain 4-20 letters, numbers or underscores."
-                  placeholder="Enter username"
-                  required
-                />
-              </div>
+          <div className="login-welcome">
+            <h1>Be a Part of Something Beautiful.</h1>
 
-              {/* First Name and Last Name */}
-              <div className="row">
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">First Name</label>
-                  <input
-                    type="text"
-                    name="first_name"
-                    className="form-control"
-                    value={formData.first_name}
-                    onChange={handleChange}
-                    pattern="[A-Za-z]+([ '-][A-Za-z]+)*"
-                    title="Enter a valid first name."
-                    placeholder="First name"
-                    required
-                  />
-                </div>
+            <p>
+              Join a community that believes in kindness,
+              compassion and helping one another.
+              Together, we can create meaningful change.
+            </p>
 
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Last Name</label>
-                  <input
-                    type="text"
-                    name="last_name"
-                    className="form-control"
-                    value={formData.last_name}
-                    onChange={handleChange}
-                    pattern="[A-Za-z]+([ '-][A-Za-z]+)*"
-                    title="Enter a valid last name."
-                    placeholder="Last name"
-                    required
-                  />
-                </div>
-              </div>
+            <div className="login-quote">
+              "The smallest act of kindness is worth more
+              than the grandest intention."
+            </div>
+          </div>
 
-              {/* Email */}
-              <div className="mb-3">
-                <label className="form-label">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  className="form-control"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Enter your email"
-                  required
-                />
-              </div>
-
-              {/* Phone */}
-              <div className="mb-3">
-                <label className="form-label">Phone</label>
-                <input
-                  type="tel"
-                  name="phone"
-                  className="form-control"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  pattern="[6-9][0-9]{9}"
-                  maxLength="10"
-                  title="Enter a valid 10-digit Indian mobile number starting with 6, 7, 8 or 9."
-                  placeholder="Enter 10-digit mobile number"
-                  required
-                />
-              </div>
-
-              {/* Account Type */}
-              <div className="mb-3">
-                <label className="form-label">Account Type</label>
-                <select
-                  name="role"
-                  className="form-select"
-                  value={formData.role}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="MEMBER">Community Member</option>
-                  <option value="VOLUNTEER">Volunteer</option>
-                  <option value="ORGANIZATION">Organization</option>
-                </select>
-              </div>
-
-              {/* Password */}
-              <div className="mb-3">
-                <label className="form-label">Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  className="form-control"
-                  value={formData.password}
-                  onChange={handleChange}
-                  minLength="8"
-                  pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}"
-                  title="Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character."
-                  placeholder="Create a password"
-                  required
-                />
-                <small className="text-muted">
-                  Minimum 8 characters with uppercase, lowercase, number and special character.
-                </small>
-              </div>
-
-              {/* Confirm Password */}
-              <div className="mb-3">
-                <label className="form-label">Confirm Password</label>
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  className="form-control"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  minLength="8"
-                  placeholder="Re-enter your password"
-                  required
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="btn btn-success w-100"
-                disabled={loading}
-              >
-                {loading ? 'Registering...' : 'Register'}
-              </button>
-
-            </form>
+          <div className="login-visual-footer">
+            <span className="footer-heart">♥</span> Small acts. Big impact.
           </div>
         </div>
       </div>
+
+      {/* Right Side */}
+      <div className="login-form-side register-form-side">
+
+        <div className="register-form-container">
+
+          <div className="register-mobile-brand">
+            ♥ Community Connect
+          </div>
+
+          <span className="login-subtitle">JOIN OUR COMMUNITY</span>
+
+          <h2>Create Account</h2>
+
+          <p className="login-description">
+            Start your journey with Community Connect.
+          </p>
+
+          <form onSubmit={handleSubmit}>
+
+            <div className="register-field">
+              <label>Username</label>
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                minLength="4"
+                maxLength="20"
+                pattern="[A-Za-z0-9_]{4,20}"
+                title="Username must contain 4-20 letters, numbers or underscores."
+                placeholder="Enter username"
+                required
+              />
+            </div>
+
+            <div className="register-name-row">
+              <div className="register-field">
+                <label>First Name</label>
+                <input
+                  type="text"
+                  name="first_name"
+                  value={formData.first_name}
+                  onChange={handleChange}
+                  pattern="[A-Za-z]+([ '-][A-Za-z]+)*"
+                  title="Enter a valid first name."
+                  placeholder="First name"
+                  required
+                />
+              </div>
+
+              <div className="register-field">
+                <label>Last Name</label>
+                <input
+                  type="text"
+                  name="last_name"
+                  value={formData.last_name}
+                  onChange={handleChange}
+                  pattern="[A-Za-z]+([ '-][A-Za-z]+)*"
+                  title="Enter a valid last name."
+                  placeholder="Last name"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="register-field">
+              <label>Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+
+            <div className="register-field">
+              <label>Phone</label>
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                pattern="[6-9][0-9]{9}"
+                maxLength="10"
+                title="Enter a valid 10-digit Indian mobile number starting with 6, 7, 8 or 9."
+                placeholder="Enter 10-digit mobile number"
+                required
+              />
+            </div>
+
+            <div className="register-field">
+              <label>Account Type</label>
+              <select
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                required
+              >
+                <option value="MEMBER">Community Member</option>
+                <option value="VOLUNTEER">Volunteer</option>
+                <option value="ORGANIZATION">Organization</option>
+              </select>
+            </div>
+
+            <div className="register-field">
+              <label>Password</label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                minLength="8"
+                pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}"
+                title="Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character."
+                placeholder="Create a password"
+                required
+              />
+              <small>
+                8+ characters with uppercase, lowercase, number and special character.
+              </small>
+            </div>
+
+            <div className="register-field">
+              <label>Confirm Password</label>
+              <input
+                type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                minLength="8"
+                placeholder="Re-enter your password"
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="login-submit-btn"
+              disabled={loading}
+            >
+              {loading ? 'Registering...' : 'Create My Account →'}
+            </button>
+
+          </form>
+
+          <div className="login-register">
+            Already have an account?
+            <Link to="/login"> Login</Link>
+          </div>
+
+          <div className="login-bottom-text">
+            Made with ♥ for a better community
+          </div>
+
+        </div>
+      </div>
+
     </div>
   );
 }
